@@ -8,33 +8,6 @@ __pycache__/
 .venv/
 venv/
 
-# LaTeX build artefacts (main.pdf is tracked deliberately; see below)
-*.aux
-*.bbl
-*.blg
-*.fdb_latexmk
-*.fls
-*.log
-*.out
-*.synctex.gz
-*.toc
-*.lof
-*.lot
-*.run.xml
-*.bcf
-*.nav
-*.snm
-*.vrb
-*.xdv
-main_single.aux
-main_single.bbl
-main_single.blg
-main_single.fdb_latexmk
-main_single.fls
-main_single.log
-main_single.out
-main_single.pdf
-
 # Editor
 .vscode/
 .idea/

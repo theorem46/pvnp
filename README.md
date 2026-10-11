@@ -1,101 +1,100 @@
-# Relational Lysis and Computational Efficiency — P vs NP Validation and Reproducibility Archive
+# Relational Lysis and Computational Efficiency — Validation Archive
 
-## An Introductory Examination of the P vs NP Problem Using Relational Structure
+### Computational validation for *An Introductory Examination of the P vs NP Problem Using Relational Structure*
 
 **Author:** Dr. David Swanagon
-**Affiliation:** Theorem 46 Research Institute — Department of Applied Physics
-Dallas, Texas, United States
-
-**Primary Manuscript:**
-Swanagon, D. (2026). *Relational Lysis and Computational Efficiency: An Introductory Examination of the P vs NP Problem Using Relational Structure.* Zenodo. DOI to be assigned on deposit.
-
-**Foundational Manuscripts:**
-
-Swanagon, D. (2026). *Relational Lysis: The Primitive Architecture of Structure, Constants, and Physical Law.* Zenodo. https://doi.org/10.5281/zenodo.21496929 — cited throughout as **[1]**.
-
-Swanagon, D. (2026). *Relational Lysis and the Necessity of Geometric Solved States: A Structural Resolution of the Yang–Mills Mass Gap.* Zenodo. https://doi.org/10.5281/zenodo.19116249 — cited throughout as **[2]**.
-
-Swanagon, D. (2026). *Relational Lysis and the Three-Body Problem: A Deterministic Derivation of Newtonian Gravity and General Relativity from Solved-State Geometry.* Zenodo. https://doi.org/10.5281/zenodo.19144445
+**Affiliation:** Theorem 46 Research Institute — Department of Applied Physics, Dallas, Texas, United States
 
 ---
 
-# 1. Purpose and Scope
+## 📄 Read the paper
 
-This repository is the complete computational validation archive for the application of Relational Lysis to computational cost, posed on the subset-sum decision problem in its weak form.
+The manuscript is **not** hosted in this repository. It is published open access:
 
-The thesis is that **structure precedes enumeration**. A finite configuration is not stored and then searched for; it resides at an address fixed by the act of assertion, and the counts of the assertion say where to read. The paper states four theorems — the envelope, the address of zero, the reading law, and the encoding — each derived from labeled items of [1] and [2] by a closed dependency chain, and each measured by a named protocol in this archive.
+| | |
+| --- | --- |
+| **Zenodo** | `ADD DOI LINK` |
+| **ResearchGate** | `ADD LINK` |
 
-Two consequences are measured rather than asserted:
+This repository contains only the experiments behind the paper's appendices and their recorded output, so that any claim in the paper can be re-run and checked independently.
 
-* The cost of the structural reading does not depend on the magnitudes of the contents. Multiplying every magnitude by sixteen leaves it unchanged to the operation while the Bellman table's cost rises 7.68×.
-* What is upstream of enumeration cannot cost more than enumeration at the same resolution. Where the counts name no coincident cell, a ceiling computed from the counts confines the reading, and the resolution costs at most the table on every one of 440 assertions measured.
+---
 
-# 2. Repository Layout
+## 1. What the paper claims
+
+That **structure precedes enumeration**.
+
+A finite configuration is not stored and then searched for. It resides at an address fixed by the act of assertion, and the counts of the assertion say where to read. The paper poses this on the subset-sum decision problem in its weak form and states four theorems — the envelope, the address of zero, the reading law, and the encoding — each derived from the Relational Lysis primitive architecture by a closed dependency chain, and each measured by a protocol in this archive.
+
+Two consequences are measured here rather than asserted:
+
+**Cost is decoupled from magnitude.** On the worked assertion the structural reading forms 2 configurations in 28 operations and returns the answer, where the Bellman table visits 130 cells in 207 operations and returns a bit. Multiplying every magnitude by sixteen raises the table's cost 7.68× and leaves the structural reading's cost unchanged to the operation.
+
+**Upstream cannot cost more than downstream.** Where the counts name no coincident cell, a ceiling computed from the counts confines the reading. Across 440 assertions, including an adversarial family built specifically to defeat the selection, the structural resolution never costs more than the table.
+
+## 2. Foundational papers
+
+This work rests on the Relational Lysis framework:
+
+* Swanagon, D. (2026). *Relational Lysis: The Primitive Architecture of Structure, Constants, and Physical Law.* Zenodo. https://doi.org/10.5281/zenodo.21496929 — cited as **[1]**
+* Swanagon, D. (2026). *Relational Lysis and the Necessity of Geometric Solved States: A Structural Resolution of the Yang–Mills Mass Gap.* Zenodo. https://doi.org/10.5281/zenodo.19116249 — cited as **[2]**
+* Swanagon, D. (2026). *Relational Lysis and the Three-Body Problem: A Deterministic Derivation of Newtonian Gravity and General Relativity from Solved-State Geometry.* Zenodo. https://doi.org/10.5281/zenodo.19144445
+
+## 3. Contents
 
 ```
-main.tex              the paper, modular source (inputs tables/ and appendices.tex)
-main_single.tex       generated: single-file source for Overleaf upload
-main.pdf              generated: compiled paper
-sn-bibliography.bib   bibliography (name required by the Springer sn-jnl class)
-appendices.tex        generated by make_appendices.py
-tables/               generated by make_tables.py; every table in the paper
-Scripts/          the verification programs and the source texts of [1] and [2]
-transcripts/          recorded output of every program in this archive
+Scripts/            the five experiment programs, one per appendix
+Experiment Logs/    recorded output of each program, as published
 ```
 
-**The layout is load-bearing.** Each program computes two paths from its own location: `HERE`, the folder holding the script, and `ROOT`, which is `HERE` when `main.tex` sits beside the scripts and otherwise the parent folder. Consequently:
+`Scripts/conventions.py` is not an experiment. It defines the two cost conventions once — structural acts, and RAM elementary operations in the sense of Cook and Reckhow (1973) — so that every method compared is charged identically. All five programs import it, so it must stay beside them.
 
-* all programs in `Scripts/` must stay together, since they import one another;
-* `new_pa.txt` and `yang_mills.txt` must sit **beside the scripts** in `Scripts/`, not at the root, because `quote_check.py` reads them from `HERE`;
-* `main.tex` must sit at the root, one level above `Scripts/`.
+## 4. Running the experiments
 
-Because every path is derived from `__file__`, the programs may be run from any working directory.
-
-# 3. Reproducing Every Result
+Python 3.8 or later. No third-party dependencies.
 
 ```bash
-python3 -I Scripts/make_tables.py        # writes tables/*.tex from the protocols
-python3 -I Scripts/make_appendices.py    # runs every program; writes appendices.tex
-python3 -I Scripts/make_single.py        # inlines everything into main_single.tex
-latexmk -pdf main.tex
+python3 -I Scripts/A_precedence.py
+python3 -I Scripts/B_address.py
+python3 -I Scripts/C_reading.py
+python3 -I Scripts/D_boundary.py
+python3 -I Scripts/E_surplus.py
 ```
 
-No table in the paper is typed by hand. Every figure is written by `make_tables.py` from the run that produced it, and the prose quotes those figures through generated macros, so narrative and measurement cannot drift apart.
+Each program is self-contained, resolves its own paths, uses fixed seeds, prints its structural output followed by its verdicts, and exits non-zero if any check fails. They may be run from any working directory. Output should match `Experiment Logs/` exactly.
 
-# 4. The Verification Programs
+## 5. What each experiment establishes
 
-| Program | Appendix | What it establishes |
+| Program | Appendix | Establishes |
 | --- | --- | --- |
-| `A_precedence.py` | A | Structure precedes enumeration: the numerical objects of Section 10 of [1] withdrawn cumulatively, with both resolutions re-run against what remains. |
-| `B_address.py` | B | Data as an address: the solved state (Σ, D, S) of an assertion, and the address as an oriented path-word with its two lengths. |
-| `C_reading.py` | C | Reading the envelope by depth, the selected partition, the worked comparison against three classical methods, and the ceiling. |
-| `D_boundary.py` | D | Boundary species, the two modes of assertion, and the remainder-class relation at depth. |
-| `E_surplus.py` | E | The structural surplus: what one resolution returns that enumeration does not. |
-| `dependency_graph.py` | F | Parses `main.tex`, resolves every citation of [1] by kind and number against its source text, and verifies the proof graph is acyclic with no forward dependency. |
-| `quote_check.py` | F | Verifies every passage quoted from [1] and [2] verbatim against their source texts. |
+| `A_precedence.py` | A | **Structure precedes enumeration.** The numerical objects of Section 10 of [1] are withdrawn cumulatively and both resolutions re-run against what remains. The survey fails at the first row; the structural resolution completes at every row with the identical answer. |
+| `B_address.py` | B | **Data as an address.** The solved state (Σ, D, S) of an assertion built from [1] and [2], and the address as an oriented path-word with two lengths — one that grows with the magnitudes and one that does not. |
+| `C_reading.py` | C | **The reading law.** Reading the envelope by depth, the partition the counts select, the worked comparison against exhaustive survey, Bellman table and meet-in-the-middle under one convention, and the ceiling that bounds the reading where no cell coincides. |
+| `D_boundary.py` | D | **Boundary assertion.** Boundary species and their soundness at scale, the two modes of assertion, and the remainder-class relation at depth, which decides an adversarial family at the boundary with no reading at all. |
+| `E_surplus.py` | E | **The structural surplus.** What one resolution returns that enumeration does not: the whole target spectrum, multiplicity, an exhaustion certificate with distance, conjugate symmetry, and composition. |
 
-Each program is self-contained, uses fixed seeds, prints its own verdicts, and exits non-zero on any failure. `conventions.py` defines the two cost conventions once — structural acts, and RAM elementary operations in the sense of Cook and Reckhow — so that every method compared is charged identically.
-
-## Current verdicts
+## 6. Current verdicts
 
 ```
-APPENDIX A      7 checks pass
-APPENDIX B     46 checks pass
-APPENDIX C     54 checks pass
-APPENDIX D     25 checks pass
-APPENDIX E     21 checks pass
-dependency graph        7 checks pass
-quotations     50 of 50 found verbatim
+APPENDIX A       7 checks pass
+APPENDIX B      46 checks pass
+APPENDIX C      54 checks pass
+APPENDIX D      25 checks pass
+APPENDIX E      21 checks pass
 ```
 
-Recorded output for every program is in `transcripts/`.
+Full output for each is in `Experiment Logs/`.
 
-# 5. Falsifiability
+## 7. Falsifiability
 
-The paper states its failure modes explicitly, each targeting a distinct item of the dependency graph, and each tested by a named protocol. Violation of any derived consequence of the numbered sections, or failure of any protocol in Appendices A–E, is a direct refutation. The archive is arranged so that a reader can attempt that refutation in one command.
+The paper states its failure modes explicitly, each targeting a distinct item of its dependency graph and each tested by a named protocol here. Failure of any protocol in Appendices A–E is a direct refutation, and this archive exists so that the attempt costs one command.
 
-A standing criterion of the framework is recorded here because this archive is where it would fail first: Relational Lysis is primitive, and the classical methods are downstream projections of it, so an RL resolution can never cost more than its own projection at the same resolution. Should a classical method be shown to beat the structural reading on a given assertion, the correct conclusion is that the boundary repertoire used was incomplete.
+One standing criterion of the framework belongs here, because this is where it would fail first. Relational Lysis is primitive and the classical methods are downstream projections of it, so an RL resolution can never cost more than its own projection at the same resolution. Should a classical method be shown to beat the structural reading on some assertion, the conclusion is that the boundary repertoire used was incomplete — not that the framework is wrong.
 
-# 6. License
+## 8. Citation
+
+If you use this work, please cite the paper rather than the repository.
+
+## 9. License
 
 See `LICENSE`.
