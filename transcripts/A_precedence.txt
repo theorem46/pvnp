@@ -1,0 +1,48 @@
+==============================================================================
+APPENDIX A  --  STRUCTURE PRECEDES ENUMERATION
+The withdrawal table: every cell is the outcome of a run.
+==============================================================================
+  COST CONVENTION: STRUCTURAL ACTS  (defined in conventions.py)
+
+  Asserted X = ['-7', '-3', '-2', '5', '8']
+  Question   : which sub-collections exhaust to zero?
+  Answer     : ('-3', '-2', '5')
+
+  --------------------------------------------------------------------------
+  numerical object withdrawn               ENUMERATION         STRUCTURE
+  --------------------------------------------------------------------------
+  nothing withdrawn                          completes         completes
+  the arithmetic operations on counts             fails         completes
+  + order on counts                              fails         completes
+  + successor (Def. 10.2)                        fails         completes
+  + the capacity count (Def. 10.1)               fails         completes
+  --------------------------------------------------------------------------
+
+  Where enumeration fails, the object it reached for:
+     the arithmetic operations on counts  -> the arithmetic operations on counts
+     + order on counts                    -> the arithmetic operations on counts
+     + successor (Def. 10.2)              -> the arithmetic operations on counts
+     + the capacity count (Def. 10.1)     -> the capacity count itself
+
+  Answer returned by the structural resolution at every row:
+     nothing withdrawn                    completes   [('-3', '-2', '5')]
+     the arithmetic operations on counts   completes   [('-3', '-2', '5')]
+     + order on counts                    completes   [('-3', '-2', '5')]
+     + successor (Def. 10.2)              completes   [('-3', '-2', '5')]
+     + the capacity count (Def. 10.1)     completes   [('-3', '-2', '5')]
+
+------------------------------------------------------------------------------
+VERDICTS
+  A.1  The withdrawal table
+------------------------------------------------------------------------------
+   [PASS]  enumeration completes while every numerical object stands
+   [PASS]  enumeration fails at the first withdrawal
+   [PASS]  enumeration fails at 4 of 4 withdrawals
+   [PASS]  the structural resolution completes at every withdrawal
+   [PASS]  including with the count of the contents itself withdrawn
+   [PASS]  and returns the identical answer at every row
+   [PASS]  the dependence is therefore one-directional, as Paper I states
+
+==============================================================================
+APPENDIX A VERDICT:  All seven checks pass.
+==============================================================================

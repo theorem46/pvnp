@@ -1,0 +1,115 @@
+==============================================================================
+APPENDIX B  --  DATA AS AN ADDRESS
+Relational Lysis and Computational Efficiency
+==============================================================================
+  COST CONVENTION: STRUCTURAL ACTS  (defined in conventions.py)
+
+  Asserted            X  = [-7, -3, -2, 5, 8]
+  Forced negation    ~X  = [7, 3, 2, -5, -8]
+  Atom count t(X)      = 25   (constituted allocation units)
+  Envelope width         = 26   (= k + 1, forced at assertion)
+
+  Asserted sector  [5, 8]
+     attainable magnitudes : [5, 8, 13]
+  Reversed sector  [-7, -3, -2]
+     attainable magnitudes : [2, 3, 5, 7, 9, 10, 12]
+  Intersection            : [5]        <-- THE ADDRESS
+
+  THE SOLVED STATE (Sigma, D, S) of the assertion ([2] Def. 9.2; Thm. 18.5)
+     D  aligned, symmetric
+                 +8     -7     +5     -3     -2
+          +8      0   15/2      0   11/2      5
+          -7   15/2      0      6      0      0
+          +5      0      6      0      4    7/2
+          -3   11/2      0      4      0      0
+          -2      5      0    7/2      0      0
+     S  residual, antisymmetric
+                 +8     -7     +5     -3     -2
+          +8      0    1/2      0    5/2      3
+          -7   -1/2      0      1      0      0
+          +5      0     -1      0      1    3/2
+          -3   -5/2      0     -1      0      0
+          -2     -3      0   -3/2      0      0
+     closures at the second stratum: [(-3, -2, 5)]
+
+  THE ADDRESS AS A PATH-WORD (Def. 26.1, Thm. 15.1, Thm. 15.3)
+     Y = [5, -3, -2]: in contents (5, -3, -2) (length 3); in units +++++----- (length 10); lysis: 5 pairings, 0 standing
+
+  Address              : 5
+  Content residing     : [5, -3, -2]
+  Operations to resolve: 16
+  Exhaustive reference : [[-3, -2, 5]]
+
+------------------------------------------------------------------------------
+STRUCTURAL OUTPUTS AND VERDICTS
+------------------------------------------------------------------------------
+
+  B.1  Constituted magnitude
+     [PASS]  units constituted for 8
+     [PASS]  all units carry asserted orientation
+     [PASS]  reversal of 8 carries reversed orientation
+     [PASS]  equality decided by pairing, not comparison
+     [PASS]  unequal magnitudes leave residual
+
+  B.2  Conjugate negation
+     [PASS]  not-X is componentwise opposition
+     [PASS]  no content equals its own reversal (Thm. 11.1(a))
+     [PASS]  double reversal returns the assertion
+     [PASS]  X and not-X jointly exhaust
+
+  B.3  Envelope fixation
+     [PASS]  t(X) equals the total constituted allocation (Thm. 18.6)
+     [PASS]  t(X) = t(P) + t(N): the signed range spans t(X) + 1 magnitudes
+     [PASS]  the address lies within cap(X) = min(t(P), t(N)) (Thm. 5.1(iii))
+
+  B.4  Partition by orientation
+     [PASS]  sectors are disjoint
+     [PASS]  sectors exhaust the assertion
+     [PASS]  both sectors non-empty for a balanced assertion
+
+  B.5  Address resolution
+     [PASS]  an address is returned when one exists
+     [PASS]  content residing at the address exhausts
+     [PASS]  residing content is a sub-collection of the assertion
+     [PASS]  address agrees with the exhaustive reference
+
+  B.6  Exact reconstitution
+     [PASS]  asserted sector of the residing content matches the address
+     [PASS]  reversed sector of the residing content matches the address
+     [PASS]  the two sectors pair to exhaustion
+
+  B.7  Adversarial agreement
+     [PASS]  address agrees with reference on all 38 sampled assertions
+     [PASS]  every address found lies within cap(X) = min(t(P), t(N)) (Thm. 5.1(iii)), 38 of 38
+     [PASS]  instances with no address exercised (8)
+     [PASS]  instances with multiple addresses exercised (22)
+
+  B.8  Alignment with the source chain
+     [PASS]  the residue is invariant under pairing order, so the implementation agrees with Def. 13.1's eldest-first rule on the quantity used
+     [PASS]  t(a + b) = t(a) + t(b): the boundary contributes no atom (Thm. 18.6)
+     [PASS]  no derivation computes a relation count r: the suite measures t only (Thm. 18.6) and makes no claim about r (Thm. 18.3)
+     [PASS]  the address is read, not surveyed: Assertion.ladder and Assertion.address form no sub-collection of X to test (no call to combinations; AST inspection), while the reference does
+
+  B.9  The solved state of the assertion
+     [PASS]  A = D + S with D symmetric and S antisymmetric ([2] Def. 9.2, Prop. 9.1)
+     [PASS]  on every opposite pair, S = 0 exactly where the pair exhausts; D - |S| is the matched count and 2|S| the unpaired count of Thm. 18.5
+     [PASS]  the whole assertion, as asserted against reversed aggregates, has S = 1/2: 2|S| is the residual lysis of X leaves standing (+1), and S = 0 exactly where X itself exhausts
+     [PASS]  every sub-collection exhausts exactly when the solved state of its two parts has S = 0 (Lemma on balance)
+     [PASS]  the closures at the second stratum name exactly the exhausting sub-collections of three contents and of four with two of each orientation: [(-3, -2, 5)]
+     [PASS]  hierarchical lysis of every sub-collection, residuals carried in any order, terminates at zero exactly when the sub-collection exhausts (Lemma 19.1: the counts forget the tree)
+     [PASS]  on {10, -8, -3, 2, 1} the closures at the second stratum name both exhausting sub-collections: [(-8, -3, 1, 10), (-3, 1, 2)]
+
+  B.10 The address as a path-word
+     [PASS]  every exhausting sub-collection of 38 sampled assertions (1380 words) is a balanced oriented word of length t(Y) = 2w with w asserted and w reversed units, w its depth
+     [PASS]  primitive lysis of each such word terminates after exactly w pairings with no unit standing
+     [PASS]  and on every non-exhausting sub-collection it leaves a unit standing
+     [PASS]  on every coincident first cell (29 of 38) the reading returns the word the counts write: a suffix (least) or prefix (greatest) of each sector in the order of Sigma
+     [PASS]  the path-word in contents has c_P + c_N = |Y| contents and |Y| - 1 steps, and where the least coincide the reading's cost beyond the boundary is exactly |Y| - 1 elementary operations: one per step
+     [PASS]  under magnification x2, x4, x8, x16 (n = 12, 25 assertions) the length in units is multiplied by g exactly while the length in contents, the operations and the acts are unchanged
+     [PASS]  on the worked assertion the address of zero is the word +++++----- (length 10 in units; 3 contents, 2 steps)
+     [PASS]  on the worked assertion with every magnitude multiplied by sixteen the address is a word of 160 units at depth 80 and 3 contents (two steps), the boundary is unchanged and the reading beyond it is still exactly 2
+     [PASS]  distinct sub-collections sharing one unit word occur (greatest multiplicity 5) and are distinct constitutions at one stratum: equal depth and equal atom count
+
+==============================================================================
+APPENDIX B VERDICT:  All 46 checks pass.
+==============================================================================

@@ -1,0 +1,121 @@
+==============================================================================
+APPENDIX D  --  BOUNDARY SPECIES AND RELATIONAL REFINEMENT
+Relational Lysis and Computational Efficiency
+==============================================================================
+  COST CONVENTION: RAM ELEMENTARY OPERATIONS  (defined in conventions.py)
+
+  The boundary need not be a partition of the asserted elements.
+  It may be a relation. Each refinement below is stated as a relation
+  on the assertion and computed before any resolution begins.
+
+  Asserted X = [-7, -3, -2, 5, 8]
+
+  THE REFINEMENT STACK
+  --------------------------------------------------------------------------
+     1 envelope (t(X)+1)                  12 candidate depths
+     2 + stratification (Lemma 4.3)       12 candidate depths
+     3 + extremal                          8 candidate depths
+     4 + cardinality                       4 candidate depths
+     TRUE addresses                        1   [5]
+  --------------------------------------------------------------------------
+     surviving window [5, 6, 7, 8]
+     67% of the envelope eliminated, with no ladder built
+     cardinality strata: 6 total, 2 survive
+        1 asserted + 1 reversed, reach meets in [5,7]
+        1 asserted + 2 reversed, reach meets in [5,8]
+
+  SOUNDNESS AND ELIMINATION AT SCALE
+  --------------------------------------------------------------------------
+     assertions tested                             473
+     true address excluded                           0
+     median envelope eliminated                    75%
+     true-address density, envelope only           11%
+     true-address density, after refinement        44%
+     proximity gain                               4.0x
+  --------------------------------------------------------------------------
+
+  ORDERING BOUNDARY (curvature from sector moments)
+     visits to an address, unordered      9.2
+     visits, curvature-ordered            7.1
+     first visit is an address            20%
+     gain 1.3x -- real, and the weaker species. Reported as such.
+
+  REJECTED: A BOUNDARY THAT REQUIRES THE RESOLUTION
+     joint-density ordering scores 100% first-visit accuracy
+     and is rejected: computing it builds both ladders, which is
+     the resolution it claims to accelerate. See D.1.
+
+  THE STRATIFICATION BOUNDARY, DERIVED (Sec. 4.2-4.3, Lemma 4.3)
+     common stratifier of the asserted sector   none -- relation does not bear
+     common stratifier of the reversed sector   none -- relation does not bear
+     on the worked assertion the stratification row therefore equals
+     the envelope; the elimination above is extremal + cardinality.
+
+  THE TWO MODES OF ASSERTION (Cor. 4.2)
+  --------------------------------------------------------------------------
+     n  constituted g  recovered g  search ops  read, as relations
+  --------------------------------------------------------------------------
+     8              3            3         126                   1
+    12              4            4          61                   1
+    16              6            6          79                   1
+    20              5            5         121                   1
+  --------------------------------------------------------------------------
+
+  THE REMAINDER CLASS ON THE CERTIFICATE FAMILY (Protocol D.8)
+  --------------------------------------------------------------------------
+     n  cells formed  cells kept  relation ops  reading ops  table ops
+  --------------------------------------------------------------------------
+    12          15.3         0.0           134        2,924     13,656
+    16          27.5         0.0           206       22,959     35,146
+    20          48.4         0.0           296       46,919     68,448
+    24          70.1         0.0           389       73,488    120,428
+  --------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+STRUCTURAL OUTPUTS AND VERDICTS
+------------------------------------------------------------------------------
+
+  D.1  The computability criterion
+     [PASS]  no admitted boundary builds a ladder
+     [PASS]  no admitted boundary consults true_addresses
+     [PASS]  the rejected proposal does build a ladder
+     [PASS]  the stratification boundary uses no library gcd and no native division: Thm. 20.2 by iterated subtraction only (AST inspection)
+
+  D.2  The refinement stack
+     [PASS]  each boundary narrows or preserves the previous
+     [PASS]  every boundary retains every true address
+     [PASS]  the envelope falls from 12 to 4 candidate depths
+
+  D.3  Soundness at scale
+     [PASS]  no true address excluded in 473 of 473 assertions
+     [PASS]  median 75% of the envelope eliminated before work
+     [PASS]  true-address density rises from 11% to 44%
+
+  D.4  Ordering boundary
+     [PASS]  the ordering boundary builds no ladder (source inspection, as D.1)
+     [PASS]  it reaches an address in 7.1 visits against 9.2 unordered
+     [PASS]  the gain is modest and is reported as such; ordering boundaries remain the weaker species
+
+  D.5  A rejected boundary
+     [PASS]  the circular proposal scores 100% first-visit accuracy
+     [PASS]  it nevertheless fails the computability criterion: it builds a ladder
+
+  D.6  The stratification boundary, derived
+     [PASS]  worked assertion: neither sector has a common stratifier, so the relation does not bear (Cor. 4.1, final clause)
+     [PASS]  and the boundary returns the envelope unchanged there
+     [PASS]  a sector with a common stratifier is eliminated through: {+6,+9,-4,-10} keeps of its 14-depth envelope only {6, 12}, the depths stratified by 3 and by 2
+     [PASS]  and excludes no true address in doing so
+
+  D.7  The two modes of assertion
+     [PASS]  asserted as counts, the stratifier recovered by Thm. 20.2 is the one the constitution carries, on every row
+     [PASS]  and the recovery costs 126, 61, 79, 121 operations at n = 8, 12, 16, 20
+     [PASS]  asserted as relations, the stratifier is read in one act on every row: the search is what the counts mode pays for forgetting the tree
+
+  D.8  The remainder class on the frontier
+     [PASS]  wherever a modulus 2..n bears on both sectors (122 cases: the suite at n <= 16 and 80 assertions built with a common remainder in each sector), every cell carrying an address survives the remainder-class relation: the relation is sound against the exhaustive reference
+     [PASS]  on the certificate family of Protocol C.16 the remainder class modulo n bears on both sectors, discards every surviving cell, and returns the certificate at the boundary with no reading on all 40
+     [PASS]  on the 156 frontier assertions of the suite (no coincident cell) a modulus bears and eliminates at least one cell on 2, eliminating on average 54% of their cells: the relation is a boundary for structured assertions and the frontier for sampled ones
+
+==============================================================================
+APPENDIX D VERDICT:  All 25 checks pass.
+==============================================================================

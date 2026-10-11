@@ -1,0 +1,85 @@
+==============================================================================
+APPENDIX E  --  THE STRUCTURAL SURPLUS
+Relational Lysis and Computational Efficiency
+==============================================================================
+  COST CONVENTION: STRUCTURAL ACTS  (defined in conventions.py)
+
+  Asserted X = [-7, -3, -2, 5, 8]
+  ONE resolution: 27 operations. Every reading below is taken
+  from it. None re-resolves.
+
+  1. THE WHOLE SPECTRUM -- every target, not the one asked
+  --------------------------------------------------------------------------
+     -12:1  -10:1  -9:1  -7:2  -5:2  -4:2  -3:1  -2:3  -1:1  +0:1  +1:2  
+     +2:1  +3:3  +4:1  +5:2  +6:2  +8:2  +10:1  +11:1  +13:1  
+     20 distinct targets answered. Enumeration answers one.
+
+  2. MULTIPLICITY WITHOUT LISTING
+     contents reaching 0: 1   +5: 2   -5: 2   +1: 2
+     counts carried; no content was enumerated to obtain them.
+
+  3. EXHAUSTION CERTIFICATE AND DISTANCE
+     assertion [-7, -3, 5, 8] carries no address
+     certificate returned; nearest feasible residual = 1
+     failure yields an optimisation answer, not silence.
+
+  4. CONJUGATE SYMMETRY
+     closed envelope X with not-X: 49 addresses, occ(t) = occ(-t) throughout
+     a target and its reversal are answered in the same resolution.
+
+  5. ENVELOPES COMPOSE
+     occupancy of [-7,-3] (4 addresses) convolved with [-2,5,8] (8)
+     equals the occupancy of their union (20). Sub-envelopes are reusable.
+
+  6. COST IS INDEPENDENT OF THE ANSWER
+     addresses found -> mean work: {4: 161, 5: 185, 6: 161, 7: 157, 8: 176, 9: 171, 11: 179, 12: 164, 13: 183.3, 14: 195, 15: 169.2, 16: 163, 17: 170.2, 19: 188, 20: 169, 21: 169.7, 25: 133}
+     resolution time carries no information about the solution.
+
+  AND THE COMPARISON
+     structure: 1 resolution, 27 operations, all six readings
+     enumeration: one target per pass, 20 passes for the spectrum alone
+
+------------------------------------------------------------------------------
+STRUCTURAL OUTPUTS AND VERDICTS
+------------------------------------------------------------------------------
+
+  E.1  One resolution
+     [PASS]  no reading calls resolve
+     [PASS]  no reading constructs a combination
+     [PASS]  every reading takes the occupancy as given
+
+  E.2  The whole spectrum
+     [PASS]  20 distinct targets answered in one resolution
+     [PASS]  the spectrum spans the envelope and no further
+     [PASS]  every target count agrees with exhaustive reference
+
+  E.3  Multiplicity without listing
+     [PASS]  multiplicity agrees with exhaustive reference at every target probed
+     [PASS]  the multiplicity reading forms no combination (source inspection)
+
+  E.4  Exhaustion certificate
+     [PASS]  the assertion genuinely carries no address
+     [PASS]  the resolution returns an exhaustion certificate
+     [PASS]  the certificate carries the distance to the nearest occupied address
+
+  E.5  Conjugate symmetry
+     [PASS]  the conjugate envelope is closed under reversal
+     [PASS]  occupancy is symmetric: occ(t) equals occ(-t) at every address
+     [PASS]  a target and its reversal are therefore answered together
+
+  E.6  Envelope composition
+     [PASS]  the sub-assertions have disjoint constitutions, as Def. 19.1 requires
+     [PASS]  the convolution of two sub-envelopes equals the envelope of the union
+     [PASS]  sub-envelopes are therefore reusable, not re-derived
+
+  E.7  Answer-independent cost
+     [PASS]  assertions grouped by address count: [4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 25]
+     [PASS]  mean work varies by 1.47x across those groups
+     [PASS]  resolution time therefore carries no information about the answer
+
+  E.8  One resolution against many passes
+     [PASS]  enumeration answers one target per pass and would need 20 passes for the spectrum alone
+
+==============================================================================
+APPENDIX E VERDICT:  All twenty-one checks pass.
+==============================================================================

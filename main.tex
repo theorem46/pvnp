@@ -1,0 +1,620 @@
+%Version 3.1 December 2024
+\newif\ifsnjnl
+\IfFileExists{sn-jnl.cls}{\snjnltrue}{\snjnlfalse}
+\ifsnjnl
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
+\else
+\documentclass[11pt]{article}
+\usepackage[margin=1.05in]{geometry}
+\usepackage[numbers]{natbib}
+\providecommand{\fnm}[1]{#1}\providecommand{\sur}[1]{#1}
+\providecommand{\bmhead}[1]{\paragraph{#1}}
+\makeatletter
+\def\rl@abstract{}\def\rl@keywords{}\def\rl@affil{}
+\long\def\abstract#1{\long\gdef\rl@abstract{#1}}
+\def\keywords#1{\gdef\rl@keywords{#1}}
+\def\affil#1{\gdef\rl@affil{#1}}
+\def\rl@authorname{}
+\def\author{\@ifstar\rl@authorA\rl@authorA}
+\def\rl@authorA{\@ifnextchar[{\rl@authorB}{\rl@authorB[]}}
+\def\rl@authorB[#1]#2{\gdef\rl@authorname{#2}}
+\renewcommand\maketitle{\begin{center}{\LARGE\bfseries\@title\par}\vspace{1em}{\large\rl@authorname\par}\vspace{.3em}{\small\rl@affil\par}\end{center}\begin{quote}\small\noindent\textbf{Abstract.}\ \rl@abstract\par\vspace{.6em}\noindent\textbf{Keywords:}\ \rl@keywords\end{quote}}
+\makeatother
+\fi
+%%%% Standard Packages (per template)
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{booktabs}%
+\usepackage{array}%
+\usepackage{longtable}%
+\usepackage{tabularx}%
+\usepackage[section]{placeins}%   floats may not cross a section boundary
+%% float placement: give LaTeX real options instead of [h] alone
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{5}
+\usepackage{hyperref}%
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\fi
+\usepackage{newunicodechar}
+\newunicodechar{¬}{\ensuremath{\lnot}}
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≤}{\ensuremath{\le}}
+\newunicodechar{≥}{\ensuremath{\ge}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{⊞}{\ensuremath{\boxplus}}
+\newunicodechar{⊙}{\ensuremath{\odot}}
+\newunicodechar{′}{\ensuremath{{}^{\prime}}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+%%%%
+\ifsnjnl
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{convention}[theorem]{Convention}
+\newtheorem{posit}[theorem]{Posit}
+\theoremstyle{thmstyletwo}%
+\newtheorem{remark}{Remark}[section]
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}[section]
+\else
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{convention}[theorem]{Convention}
+\newtheorem{posit}[theorem]{Posit}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{definition}{Definition}[section]
+\fi
+\raggedbottom
+\setlength{\parskip}{0pt}
+
+%% ---- conventions of this paper ----
+\newcommand{\PA}{\cite{Swanagon2026PA}}
+\newcommand{\q}[1]{``#1''}        % a passage quoted verbatim from [1]; verified by quote_check.py
+\newcommand{\qq}[1]{``#1''}       % a passage quoted verbatim from [2]; verified by quote_check.py
+\newcommand{\YM}{\cite{Swanagon2026YangMills}}
+\input{tables/solved_closures}
+\newcommand{\deps}[1]{\par\begin{sloppypar}\noindent\emph{Dependencies.} #1 Nothing else is used.\end{sloppypar}}
+\newcommand{\chain}[1]{\par\begin{sloppypar}\noindent\emph{Proof chain.} #1\end{sloppypar}}
+\newcommand{\measured}[1]{\par\begin{sloppypar}\noindent\emph{Measured.} #1\end{sloppypar}}
+\input{tables/selection_totals}
+\input{tables/growth_totals}
+\input{tables/worked_totals}
+\input{tables/ceiling_totals}
+
+\begin{document}
+\title{Relational Lysis and Computational Efficiency: An Introductory Examination of the P vs NP Problem Using Relational Structure}
+\author*{\fnm{Researcher:} \sur{Dr. David Swanagon}}
+\affil{Department of Applied Physics, Theorem 46 Research Institute, Dallas, Texas, United States. \href{mailto:dms@theorem46.com}{dms@theorem46.com}}
+\abstract{We apply the primitive architecture of Relational Lysis \PA{} to computational cost, on the subset-sum decision problem in its weak form. We demonstrate that structure precedes enumeration as part of the initial act of distinction. From this, we ask the question: which sub-collections of an asserted finite collection $X$ of non-zero integers exhaust to zero? In Relational Lysis the answer is not found through search; it resides as an address. Asserting $X$ founds a descent whose envelope holds every configuration the contents can form, each at its own depth; zero is exhaustion, residing where an asserted and a reversed configuration both stand; and the counts of the assertion select the cell in which that happens. On $X=\{-7,-3,-2,5,8\}$ the structural reading forms \workedStructFormed{} configurations at \workedStructOps{} operations and returns $\{5,-3,-2\}$, where the Bellman table visits \workedTableFormed{} cells at \workedTableOps{} and returns a bit; multiplying every magnitude by 16 multiplies the table's cost by \growthMTable{} and leaves the structural reading's unchanged. Where the counts select no coincident cell, a ceiling computed from the counts reads the reach of the sectors as the table reads it. What is upstream of enumeration can at most equal it at the same resolution, and the structural resolution never costs more than the table. Where the counts alone do not decide, a relation at depth can. The remainder class of Theorem~20.2 of \PA{} returns the certificate at the boundary, with no reading, on a family built to defeat the counts. Four theorems, derived from \PA{} by a closed, machine-verified dependency chain and measured by named protocols, establish the envelope, the address of zero, the reading law, and the encoding. The findings suggest that Relational Structure may present a pathway for more effective data storage and computational costs relative to enumeration.}
+\keywords{Relational Lysis, P vs NP, Subset Sum, Computational Complexity, Data as an Address, Boundary Assertion, Residence, Zero as Exhaustion, Information Theory}
+\maketitle
+\newpage
+
+\bmhead{Relation to companion papers}
+This article applies the primitive architecture of Relational Lysis \PA{} to computational cost. The companion papers \cite{Swanagon2026YangMills} and \cite{Swanagon2026ThreeBody} derive, respectively, the Yang--Mills mass gap and the gravitational regime on that substrate. The present paper imports its proof chain from \PA{} without re-derivation, and the reader examining the derivations below should refer to that chain directly: the envelope to Axioms~5.1 and~5.2; residence and the address to Theorems~15.1 and~15.3 and Definition~26.1; zero as exhaustion to Definition~5.2 and Corollary~23.8; orientation and the signed count to Definition~18.2 and Theorem~18.1; lysis and conjugate pairing to Definition~13.1 and Theorem~18.5; the term projection to Theorem~18.6; aggregates and their counts to Definition~19.1 and Lemma~19.1; stratification to Theorems~20.2, 20.3 and~21.2. Every item of this paper closes with the dependencies it uses and the statement \emph{Nothing else is used}; every passage quoted from \PA{} is verified verbatim against its source text by the program \texttt{quote\_check.py}.
+
+\section*{Executive Summary of Principal Implications}\addcontentsline{toc}{section}{Executive Summary of Principal Implications}\label{sec:execsummary}
+This article establishes, on one problem, that the resolution of a computational question is a reading of relational structure, that the structure is fixed by the assertion before anything is read, and that the cost of the reading is set by what the assertion carries rather than by the number of candidates the question admits. Every result is derived from the labeled items of \PA{} by a closed, machine-verified dependency chain and measured by a named protocol whose checks are the result's own clauses. The principal implications are the following.
+
+\subsection*{I. Structure Precedes Enumeration}
+Implication~I of \PA{} states that the dependence of number on structure is strictly one-directional: every numerical object is defined from the relational chain, and no numerical object is required to define the chain. Appendix~\ref{app:A} tests that dependence by withdrawal. The numerical objects of Section~10 of \PA{} --- the arithmetic operations on counts, order, successor, and the capacity count itself --- are withdrawn one at a time from the same asserted contents, and both resolutions are run against what remains. Enumeration fails at the first withdrawal and at every one after it, because the survey cannot be stated without a count to bound it. The structural resolution completes at every withdrawal, including with the count of the contents withdrawn, and returns the identical answer at every row. Every cell of that table is the outcome of a run.
+
+\subsection*{II. P vs NP Findings: Computational Efficiencies}
+The question \emph{which sub-collection exhausts to zero} is resolved by reading the envelope by depth under a boundary asserted from the counts. On the worked assertion the structural reading forms \workedStructFormed{} configurations at \workedStructOps{} operations where the survey forms \workedSurveyFormed{} at \workedSurveyOps{} and the table visits \workedTableFormed{} cells at \workedTableOps{}; the \workedStructOps{} are itemised and the ledger is certified to sum (Section~\ref{sec:address}, Appendix~\ref{app:C}). Across sampled families the fraction of the envelope read falls from a few percent at six contents to one hundredth of one percent at twenty, the decision agrees with the exhaustive reference on every assertion checked, and the reads do not grow with the magnitudes while the table does (Section~\ref{sec:change}). Cost moves into the assertion of the boundary, and the reading is confined to what the boundary opens. Where no cell coincides, the counts also bound the reading: a ceiling, asserted before any interior is read, allows the cells' interiors only the operations the boundary saves against the table and otherwise reads the reach of the sectors as the table reads it, restricted to the floor (Theorem~\ref{thm:reading}(iv), Protocol~C.16). Upstream cannot cost more than downstream at the same resolution; the structural resolution costs at most the table on every one of 440 assertions measured, and on certificate instances built to defeat the selection --- no zero, no coincident cell --- the table costs between $1.3$ and $10$ times the resolution (Table~\ref{tab:ceiling}). On that same family the remainder class of Theorem~20.2, asserted at the boundary, returns the certificate with no reading at all (Section~\ref{sec:encoding}, Protocol~D.8).
+
+\subsection*{III. Boundary Assertion}
+The boundary is not fixed once and then read; the assertion is re-asserted as the partition of the envelope that the counts single out. In each cell of the partition by sector cardinality four configurations reside whose depths the prefix and suffix sums of the ordered sectors already name; where the two least or the two greatest coincide, zero resides there and is read with two residence reads and one match. The selecting relation ranks coincident cells first and is computed before any reading, certified by inspection of source. On \selFirst{}$+$\selSecond{}$+$\selLater{} sampled assertions carrying a zero, it is read in the first cell the counts select on \selFirst{}. The remainder are the assertions on which a further relation at depth, not yet identified, would name the address directly; they are reported as a count, and they are the frontier (Section~\ref{sec:frontier}).
+
+\subsection*{IV. Cost is Path Length, Not Table Size}
+Implication~I of \PA{} states that in a representational discipline founded on the primitive tier, \q{the cost of a configuration is the length of its path rather than the size of a stored table.} The Reading Law (Theorem~\ref{thm:reading}) is that statement made exact for one problem: the cost is the boundary plus the cells opened; the levels of magnitude between depths are never counted, because residence is a fact of the descent and not a step of a procedure; and the Bellman table, which visits every level of the signed range once per content, is the cost of declining to assert a boundary. Multiplying every magnitude by sixteen leaves the structural reading's cost unchanged to the operation (Table~\ref{tab:magnitude}). The address itself is a path-word with two lengths (Theorem~\ref{thm:pathword}): in units it is the depth of the stratum where zero resides and grows with the magnitudes; in contents it is the number of contents beneath, and that is what the reading pays (Table~\ref{tab:pathword}).
+
+\subsection*{V. Structural Information Not Present in Enumeration}
+One resolution of the assertion under the envelope boundary carries, at no further cost, the whole target spectrum (twenty distinct targets on the worked assertion, where enumeration answers one per pass), the multiplicity at every target without listing, an exhaustion certificate with the distance to the nearest occupied address where no zero resides, conjugate symmetry of the closed envelope, and composition of sub-envelopes; and the cost of the resolution carries no information about its answer. Each reading is certified not to re-resolve and not to construct a combination (Section~\ref{sec:surplus}, Appendix~\ref{app:E}).
+
+\subsection*{Directions for Future Research}
+Three directions follow, each with its seat in the text. \emph{The relations at depth:} the coincidence of extremal residences names an address outright and the remainder class of Theorem~20.2 discards cells before reading (Section~\ref{sec:encoding}); the assertions on which neither bears are counted in Appendix~\ref{app:C}, resolved under the ceiling at no more than the table's cost, and each further relation identified moves assertions from that count into the boundary. \emph{The relational boundary:} Section~\ref{sec:encoding} posits that boundaries can be asserted by relation alone, without passage through number, and gives the first instance, in which a stratifier carried by the assertion is read in one act where its recovery from counts costs a search. \emph{Transfer:} the method --- assert the instance, let its relations partition its envelope, let the counts select the cell, read the address there --- is hierarchical lysis on a solved state, the object on which \cite{Swanagon2026YangMills} constructs the covariant self-adjoint Laplacian; whether that operator does at scale what coincidence does here by inspection is the question the next paper takes up, on a harder instance.
+
+\section*{Introduction}\addcontentsline{toc}{section}{Introduction}\label{sec:intro}
+This paper poses the subset-sum decision problem in its weak form in the framework's own terms, derives from \PA{} the objects that resolve it --- the envelope, residence, the address of zero, the cells of the envelope and their extremal residences, the selecting relation --- and measures the resolution against the classical methods under one operation convention. The organization follows the argument: the worked assertion and the claims (Section~\ref{sec:address}); how the problem is resolved today (Section~\ref{sec:today}); what changes under Relational Lysis (Section~\ref{sec:change}); structure before enumeration (Section~\ref{sec:precedence}); the encoding, stratification, and the relational boundary (Section~\ref{sec:encoding}); the four theorems (Section~\ref{sec:theorems}); the structural surplus (Section~\ref{sec:surplus}); falsifiability and the verified dependency structure (Section~\ref{sec:falsifiability}); and the frontier (Section~\ref{sec:frontier}). Appendices~\ref{app:A}--\ref{app:E} contain the experimental program and Appendix~\ref{app:F} the verification programs; every table in the paper is generated from the experiments by \texttt{make\_tables.py}.
+
+\emph{Citation policy.} All definitions, theorems, and derivations in this paper are original to the Relational Lysis framework and to its author, and rest on \PA{}. Citations to the classical literature identify the problem \citep{Cook1971,Karp1972,Levin1973,Cook2000}, the methods written here as anchors \citep{Bellman1957,HorowitzSahni1974,GareyJohnson1979}, the operation convention in which they are charged \citep{CookReckhow1973}, and the standard references \citep{Papadimitriou1994,AroraBarak2009,Sipser2012,Fortnow2009,Aaronson2016,KoiliarisXu2017,Bringmann2017}; no citation is a source for any derivation.
+
+\emph{Conventions.} Every statement is one of three kinds and says which: \emph{Cited}, verbatim from \PA{}; \emph{Derived}, proved from cited material and nothing else; or \emph{Measured}, the outcome of a named protocol. Items are stated in numbered environments per section; each proof-bearing item closes with a \emph{Dependencies} line and each theorem with its \emph{Proof chain}. Costs are charged under two conventions, defined once (Convention~\ref{conv:cost}) and never mixed in one table.
+
+\subsection*{Correspondence of classical concepts}
+Table~\ref{tab:corr} orients the reader: each classical concept of the algorithms literature is listed with its ancestor in the present framework and the section in which that ancestor is derived.
+\begin{table}[!htbp]
+\centering\small
+\caption{Classical concepts and their Relational Lysis ancestors.}\label{tab:corr}
+\begin{tabularx}{\textwidth}{l >{\raggedright\arraybackslash}X l}
+\toprule
+Classical concept & Relational Lysis ancestor & Derived in \\
+\midrule
+Search space & The envelope $X\otimes\neg X$ and what resides in it & Sec.~\ref{sec:change}, Thm.~\ref{thm:envelope} \\
+Candidate solution & A configuration resident at its depth & Thm.~\ref{thm:address} \\
+Address of the solution & The oriented path-word of its residence; two lengths, in units and in contents & Def.~\ref{def:pathword}, Thm.~\ref{thm:pathword} \\
+Target sum zero & Zero as exhaustion: a conjugate pair at one depth & Thm.~\ref{thm:address} \\
+Pruning & Boundary assertion: cells whose intervals cannot meet & Sec.~\ref{sec:change}, App.~\ref{app:D} \\
+Heuristic ordering & The selecting relation, from the counts & Sec.~\ref{sec:change}, App.~\ref{app:C} \\
+Dynamic-programming table & The envelope boundary read level by level & Thm.~\ref{thm:reading} \\
+Unary encoding & Constituted magnitude: a value of $m$ is $m$ units & Def.~\ref{def:encoding} \\
+Divisibility & Stratification, a classification of constitution & Lem.~\ref{lem:strat} \\
+Running time & Path length: the boundary plus the cells opened & Thm.~\ref{thm:reading} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection*{Principal symbols}
+$X$ the asserted collection and $\neg X$ its componentwise reversal; $P$, $N$ its sectors by orientation; $t(\cdot)$ the atom count at the term projection; $\mathrm{cap}(X)=\min(t(P),t(N))$; $(c_P,c_N)$ a cell of the envelope's partition by sector cardinality; $[\mathrm{lo},\mathrm{hi}]$ a cell's window; $R(S)$ the reach of a sector; $g$ a common stratifier; $n$ the number of contents.
+
+%====================================================================
+\section{Data as an Address}\label{sec:address}
+\emph{I saw the angel in the marble and carved until I set him free.} The sentence is attributed to Michelangelo, and in Relational Lysis it is a technical statement. The block of marble is the envelope. The figure resides in it the moment the block is bounded; nothing the sculptor does adds to the block or takes from the figure. The assertion \emph{there is an angel in this marble} names the partition of the block in which the figure stands. The carving is the path to its address, and it is short in proportion to how well the partition was named. Carving the whole block to find out what is in it is enumeration.
+
+\subsection{The payload}
+Modern computing rests on a warehouse. A datum is a payload: encoded into bits, written to a location, held there, and found again by search. The Primitive Architecture \PA{} proves, before any physical identification and from axioms none of which quantifies over numbers, that this ordering is backwards. Its Implication~I states that \q{the bit is not primitive but derived, a late projection of a distinction that was already structural}, that \q{Enumeration is downstream apparatus, not foundation}, and that Wheeler's slogan \q{has the arrow backwards: it is Bit from It}. The representational consequence is stated there in one sentence: \q{a finite configuration is not stored but addressed}. Every finite configuration \q{resides, without an observer and without being generated, as enfolded content of every coarser stratum above it}; its address \q{exists, is unique, and is exact}; and \q{retrieval is arrival at an address rather than reassembly from parts}. The universe of representable configurations \q{requires no enumerative store: it is not a catalogue of states that must be built and held, but an addressable geometric hierarchy in which every finite state already resides as a location}. \q{Identity is position, not payload.}
+
+This paper takes that sentence into computation, on the smallest problem whose answer is literally a residence: subset sum in its weak form, in which the question \emph{which sub-collection of $X$ exhausts to zero} is the question \emph{at which depth of the envelope do an asserted configuration and its reversal stand together}. Zero is exhaustion, a conjugate pair closing at one depth; the counts of the assertion name the depths where that can happen; and the answer is read there. Nothing is built, nothing is searched, and nothing outside the named partition is ever formed.
+
+\subsection{The decoupling of cost from magnitude}
+Here is the measurement first, on one assertion and on sampled families, under one convention in which every resolution is charged the same way: one operation for each addition, comparison, table read, or table write \citep{CookReckhow1973}. Table~\ref{tab:master} sets the structural reading against the three classical resolutions of the same question on two axes, what each costs and what each returns. On the first axis the structural reading forms fewer configurations and performs fewer operations than every classical method at every scale measured. When every magnitude is multiplied by sixteen, the table's cost grows elevenfold and the structural reading's does not move by one operation, because a level of magnitude is never a step of the reading: \q{the cost of a configuration is the length of its path rather than the size of a stored table.} On the second axis the structural reading returns, from one resolution, every reading the exhaustive survey returns at exponential cost and the table does not return at all.
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\caption{Master table. Part A: the cost of each resolution on the worked assertion and on sampled assertions of twelve and twenty contents with distinct magnitudes (means of 25), with its growth in $n$ and its growth when every magnitude is multiplied by sixteen at $n=12$ (Protocols~C.9--C.13). Part B: the readings each resolution supplies from its own output (Protocol~C.14).}
+\label{tab:master}
+\input{tables/tab_master_a}\par\vspace{0.8em}
+\input{tables/tab_master_b}
+\end{table}
+
+Table~\ref{tab:worked} is the first row of Part A in full, and the ledger beneath it is the structural reading's \workedStructOps{} operations one by one.
+
+\begin{table}[!htbp]
+\centering
+\caption{One question, four resolutions, one convention. $X=\{-7,-3,-2,5,8\}$: which sub-collections exhaust to zero?}
+\label{tab:worked}
+\input{tables/tab_worked}
+\end{table}
+
+The survey \citep{GareyJohnson1979} forms every sub-collection and tests each. The table \citep{Bellman1957} visits every level of the signed range $-12,\dots,13$ once per content, pays an addition, a comparison and a write at each occupied level, and, carrying no counts and no back-pointers, returns reachability and nothing else. Meet-in-the-middle \citep{HorowitzSahni1974} halves the exponent and sorts. The structural reading orders the sectors, forms the two configurations the counts of the assertion name, tests one equality, and returns the content. Its \workedStructOps{} operations are these:
+
+\begin{table}[!htbp]
+\centering
+\caption{The structural reading of Table~\ref{tab:worked}, itemised. Protocol~C.9 certifies that the ledger sums to the measured count.}
+\label{tab:ledger}
+\input{tables/tab_ledger}
+\end{table}
+
+\subsection{The invitation}
+The structure that does this is not an algorithm's. It is the envelope's. Orientation partitions the assertion into its two sectors; the sector counts partition the envelope into cells; in every cell four configurations reside whose depths the counts already name; where two of them coincide the address is read at once. On the sampled families that happens on \selFirst{} of \selFirst{}$+$\selSecond{}$+$\selLater{} assertions carrying a zero. The remainder are not failures of the method; they are the assertions whose address lies at a resolution the two relations this paper reads do not yet reach, and they are counted, row by row, in Table~\ref{tab:selection}. The frontier is the vocabulary of partitions: the more that is known of how an envelope stratifies and unfolds, the more of the address the assertion fixes before anything is read, and the shorter the path. That vocabulary is the invitation of this paper, to information theorists and to the architects of storage and retrieval alike.
+
+This introductory paper claims the following. There is a language of relational structure that sits above enumeration (Section~\ref{sec:precedence}). That language creates an address: the sub-collection exhausting to zero resides in the envelope of $X$ at genesis, and the counts of the assertion select the cell in which it stands (Sections~\ref{sec:change} and~\ref{sec:theorems}). It is easier to use this language for computation than standard enumeration: where the counts name the cell the cost does not depend on the magnitudes of the contents, and where they do not the cost is at most enumeration's own, since what is upstream of enumeration can at most equal it at the same resolution (Theorem~\ref{thm:reading}, Tables~\ref{tab:scaling}, \ref{tab:magnitude} and~\ref{tab:ceiling}). A relation at depth decides where the counts alone do not (Corollary~\ref{cor:remainder}). And the same reading returns information that enumeration does not (Section~\ref{sec:surplus}). Each claim is derived from labeled items of \PA{} by a closed dependency chain and is measured by a protocol whose checks are the claim's own clauses.
+
+\noindent\emph{Experimental correspondence:} Appendix~\ref{app:C}.
+
+%====================================================================
+\section{How the Problem Is Resolved Today}\label{sec:today}
+Subset sum entered the theory of computation with Karp's list \citep{Karp1972}, following Cook \citep{Cook1971} and Levin \citep{Levin1973}; the status of the P versus NP question is stated in \citet{Cook2000} and surveyed in \citet{Fortnow2009} and \citet{Aaronson2016}. Subset sum is NP-complete under binary encoding and admits a pseudo-polynomial table under unary encoding, which is why it is classified as weakly rather than strongly NP-complete \citep{GareyJohnson1979,Papadimitriou1994,AroraBarak2009,Sipser2012}. Three methods are written here from their own literature and charged under the one convention.
+
+\emph{The exhaustive survey} forms each of the $2^n-1$ nonempty sub-collections and tests its sum: $n\,2^{n-1}+2^n-1$ operations. \emph{The Bellman table} \citep{Bellman1957} keeps one cell per attainable sum over the signed range and, for each content, visits every cell once: $n\,(t(X)+1)$ reads, where $t(X)=\sum|x_i|$, with an addition, a comparison and a write at each occupied cell. \emph{Meet-in-the-middle} \citep{HorowitzSahni1974} forms the $2^{n/2}$ sums of each half, sorts both lists, and sweeps them once; its sort is charged at the merge-sort comparison count so that its cost is not overstated. The fastest tables known run in time near-linear in $t(X)$ \citep{KoiliarisXu2017,Bringmann2017}; they are cited for their bounds, which still grow with the magnitudes, and are not run.
+
+\begin{table}[!htbp]
+\centering
+\caption{The three methods and the structural reading on a family of sampled assertions with distinct magnitudes, means over 25 assertions per row, operations under the one convention.}
+\label{tab:scaling}
+\small
+\input{tables/tab_scaling}
+\end{table}
+
+Every method in Table~\ref{tab:scaling} pays in proportion to a space it visits: the survey the tower of sub-collections, the table the signed range, meet-in-the-middle the half-towers. The structural reading pays for something else, and Section~\ref{sec:change} says what.
+
+\subsection{What the order of growth is taken over}\label{sec:growth}
+The question P versus NP asks how cost grows with the length of the input, and each method's cost law names the quantities it grows with (Table~\ref{tab:growth}). The survey is $\Theta(n\,2^n)$ in the number of contents and blind to their magnitudes; meet-in-the-middle is $\Theta(n\,2^{n/2})$, the same exponent halved; the table is $\Theta(n\,t(X))$, polynomial in the count but proportional to the magnitudes, so that the same assertion written with every magnitude sixteen times larger costs the table close to sixteen times more. These are the two terms the classical account offers, and the difficulty sits in the fact that neither is polynomial in the length of a binary input: the survey's exponent is in $n$, and the table's $t(X)$ is exponential in the number of bits that write the magnitudes, which is why the table is called pseudo-polynomial \citep{GareyJohnson1979}.
+
+The structural reading has a different variable. Its cost is the cost of asserting the boundary, $B(X)$, which Protocol~C.15 measures exactly on every assertion of the suite as $\sigma(P)+\sigma(N)+1+2n+|P|\,|N|+3k-1$ elementary operations, with $k$ the number of cells surviving the boundary and $\sigma$ the comparisons that order a sector by count, plus $k+n-2$ where no cell coincides; plus the cost of the cells the counts open: on a coincident cell, exactly $c_P+c_N-1<n$ further operations, one per step of the address (Theorem~\ref{thm:pathword}). Neither term contains $t(X)$. Where no cell coincides, the counts also set a ceiling: the reach of both sectors read to the floor $m=\min(t(P),t(N))$ is the table's own reading restricted, charged as the table is charged, and costs at most $\rho(X)=n(4m+1)+m+1$ against the table's $n(t(X)+1)$ reads and more; the restriction saves $n(t(X)-m)$ reads, and the cells' interiors are read only within that saving, less the boundary. So the whole resolution costs at most the table wherever the saving covers the boundary, and in every case at most $B(X)+\rho(X)+5k+6n+9$ (Theorem~\ref{thm:reading}(iv), Protocol~C.16): upstream cannot cost more than downstream at the same resolution. The order of growth is taken over the counts of the assertion --- $n$, $|P|$, $|N|$, $k$ --- and never over the magnitudes, which is what the right-hand column of Table~\ref{tab:growth} measures: the structural reading's cost under a sixteenfold magnification is unchanged to the operation, as is the survey's, while the table's grows \growthMTable{} times. The exponential of the survey and the magnitude-dependence of the table are, in this reading, two prices for the same omission: neither asserts a boundary, and so each must visit a space whose size is set by what was not asserted. So the structural reading's order of growth is the counts' where a cell coincides, and the table's where none does; it is never the survey's. Section~\ref{sec:theorems} states the cost law as a theorem and Section~\ref{sec:frontier} says where it is not yet closed.
+
+\begin{table}[!htbp]
+\centering
+\caption{The order of growth of each resolution. The cost law is derived (the three methods from their literature, the structural reading from Protocol~C.15); the two right-hand columns are measured on family~B, means over 25 assertions, as the ratio of mean cost at $n=20$ to $n=12$ and the ratio of mean cost at $n=12$ with every magnitude multiplied by sixteen to the unmultiplied cost.}
+\label{tab:growth}
+\small
+\input{tables/tab_growth}
+\end{table}
+
+\noindent\emph{Experimental correspondence:} Appendix~\ref{app:C}, Protocols C.10, C.12, C.13 and C.15.
+
+%====================================================================
+\section{What Changes Under Relational Lysis}\label{sec:change}
+
+\subsection{The problem as the primitive tier constitutes it}
+In \PA{} a magnitude is its allocation units: \q{an allocation unit is one intercession of the Between allocated by the partition mechanism: exactly one per level} (Definition~18.2), \q{Sign is orientation} (Definition~18.2), and \q{the count structure generated by assertion is the signed pair $(+n, -n)$ at every $n \ge 1$. No unsigned count is primitively generable} (Theorem~18.1). A content of magnitude $m$ is therefore $m$ units in one orientation, and the encoding is fixed, not chosen.
+
+\begin{definition}[Encoding of an Asserted Integer]\label{def:encoding}
+An asserted integer of magnitude $m$ and sign $\sigma\in\{+,-\}$ is the content constituted by $m$ allocation units (Definition~18.2) standing in the orientation $\sigma$: the asserted orientation for $\sigma=+$, the reversed orientation for $\sigma=-$. Its atom count is $t=m$ (Theorem~18.6(i)). No further structure is attributed to it.
+\end{definition}
+\noindent\emph{Justification (Cited).} Definition~18.2: \q{An allocation unit is one intercession of the Between allocated by the partition mechanism: exactly one per level} and \q{Sign is orientation: the unit in its asserted orientation is counted +1; its reversal is counted −1.} Theorem~18.1: the signed pair is born whole, so the content $-7$ is as primitive as $7$. Theorem~18.6(i): \q{For summable a, b of disjoint constitutions, t(a ⊞ b) = t(a) + t(b): the boundary contributes no atom.}
+\deps{Definition~18.2; Axiom~5.3; Theorem~18.1; Theorem~18.6(i).}
+
+\begin{lemma}[No Positional Shorthand]\label{lem:shorthand}
+In the primitive tier there is no representation of a magnitude $m$ shorter than $m$ allocation units.
+\end{lemma}
+\begin{proof}
+By Definition~10.1 the capacity count is $\kappa(S_n):=N-n$, \q{the number of unallocated partition levels remaining at that stratum}, and by Proposition~10.1 $\kappa$ is a bijection between strata and the counts $0,\dots,N$. A count is thereby identified with a stratum, and a stratum at depth $n$ is reached only by $n$ partition steps, each allocating exactly one level (Axiom~5.3). A representation of $m$ that allocated fewer than $m$ levels would stand at a stratum of depth less than $m$, whose count is, by the bijection, a different count. Hence no such representation exists.
+\end{proof}
+\deps{Definition~10.1; Proposition~10.1; Axiom~5.3.}
+
+\noindent The problem the primitive tier poses is therefore the unary-encoded problem, and that is the problem resolved here.
+
+\subsection{The answer resides}
+\q{Every finite configuration resides within the descent of the first relation: for each finite oriented configuration there is a finite depth at which it stands as enfolded interior content, independently of any act of selection, retrieval, or observation} (Theorem~15.1 of \PA). Let $X$ denote the defined and $\neg X$ its componentwise opposite. The envelope $X\otimes\neg X$ is the highest relation; \q{nothing is generated outside it} (Axiom~5.1, Remark). Every sub-collection of $X$ resides in it at the depth equal to its count of units. Zero \q{is not a posited empty object and is not the boundary itself --- the boundary is the generative maximum --- but the derived closure condition, the fact of no further admissible partition} (Definition~5.2). The objects of the resolution are fixed here.
+
+\begin{definition}[Sectors, Reach, Balance, Address]\label{def:address}
+Let $X$ be asserted per Definition~\ref{def:encoding}. Its \emph{sectors} are $P$ (members in the asserted orientation) and $N$ (members in the reversed orientation), the partition by orientation of Definition~18.2. The \emph{reach} $R(S)$ of a sector $S$ is the collection of atom counts $t(A)$ over the nonempty sub-collections $A\subseteq S$: for a single member its atom count; for two or more, the atom count of an aggregate over them (Definition~19.1), which is the same for every aggregate (Lemma~19.1). A sub-collection $Y\subseteq X$ with parts $P'=Y\cap P$, $N'=Y\cap N$ \emph{exhausts} when its lysis (Definition~13.1) leaves no unpaired unit (Definition~5.2, Corollary~23.8). The \emph{address} of an exhausting $Y$ is $t(P')$; the \emph{address space} of $X$ is $R(P)\cap R(N)$.
+\end{definition}
+\deps{Definition~\ref{def:encoding}; Definition~18.2; Definition~19.1; Lemma~19.1; Definition~13.1; Definition~5.2; Corollary~23.8.}
+
+\begin{lemma}[Balance]\label{lem:balance}
+A sub-collection $Y\subseteq X$ exhausts if and only if $t(P')=t(N')$; an exhausting $Y$ has both parts nonempty, and its address lies in $R(P)\cap R(N)$.
+\end{lemma}
+\begin{proof}
+The units of $P'$ stand in the asserted orientation and those of $N'$ in its reversal (Definition~\ref{def:encoding}); units of opposite orientation are conjugate (Definition~18.2; Theorem~12.1: on every stratum opposition coincides with reversal). Lysis \q{pairs the eldest unpaired allocated unit with its reversal} (Definition~13.1) and, by Theorem~18.5, \q{only opposite-matched units resolve}: each application discharges one asserted unit against one reversed unit, and the unpaired count after all matched units are paired is the difference of the two orientation counts (Lemma~18.4, applied once per pairing). That count is zero --- exhaustion, Definition~5.2 --- exactly when $t(P')=t(N')$. If either part is empty the other's units stand unpaired; otherwise $t(P')\in R(P)$ and $t(N')\in R(N)$ by Definition~\ref{def:address}, and they are equal.
+\end{proof}
+\deps{Definition~\ref{def:encoding}; Definition~\ref{def:address}; Definition~18.2; Theorem~12.1; Definition~13.1; Theorem~18.5; Lemma~18.4; Definition~5.2.}
+
+\noindent So zero resides at depth $w$ exactly when an asserted configuration and a reversed configuration both reside at $w$: they are a conjugate pair there (Theorem~18.1), and the sub-collection beneath them is the answer (Theorem~\ref{thm:address}).
+
+\subsection{The counts select the cell}
+Nothing is walked from the top of the envelope. Orientation partitions $X$ into sectors $P$ and $N$ (Definition~18.2). The envelope is partitioned by sector cardinality into cells $(c_P,c_N)$, the configurations of exactly $c_P$ asserted and $c_N$ reversed contents. In each cell four configurations reside whose depths the counts already name: the $c_P$ least and greatest asserted contents, the $c_N$ least and greatest reversed, at the prefix and suffix sums of the ordered sectors (Definition~19.1 and Lemma~19.1 of \PA). Cells whose depth intervals cannot meet are discarded. Where the two least, or the two greatest, stand at one depth, zero resides there, and it is read with two residence reads and one match. The selecting relation ranks such cells first; it is computed from the counts before any reading, and Protocol~C.6 certifies by inspection of its source that it forms no configuration. On the worked assertion the cell \emph{one asserted against two reversed} has least residences $5$ and $3\boxplus 2$, both at depth~5. That is the angel, and the counts said where it stood before a chip was struck.
+
+\subsection{Cost is path length, not table size}
+Implication~I of \PA{} states that in a representational discipline founded on the primitive tier, \q{the cost of a configuration is the length of its path rather than the size of a stored table.} Table~\ref{tab:magnitude} is that statement as a number. The same twenty-five assertions of twelve contents are resolved with every content multiplied by $g$. The table's cost grows with the magnitudes because it visits every level. The structural reading's cost does not move, to the operation, because a level of magnitude is never an act: residence is a fact of the descent, not a step of a procedure.
+
+\begin{table}[!htbp]
+\centering
+\caption{Magnitude invariance. $n=12$, the same assertions with every content multiplied by $g$; means over 25 (Protocol~C.10).}
+\label{tab:magnitude}
+\input{tables/tab_magnitude}
+\end{table}
+
+\subsection{Across the families}
+On \selTotal{} sampled assertions in two families, of which \selFirst{}$+$\selSecond{}$+$\selLater{} carry a zero, the zero is read in the first cell the counts select on \selFirst{}, in the second on \selSecond{}, and later on \selLater{}; the reading finds a zero exactly when one exists, certified against the exhaustive reference on every assertion with $n\le16$ (Protocol~C.2). The assertions whose zero is not at a coincident end of a cell are the ones on which a further relation at depth, not yet identified, would name the address directly; they are counted, and they are where the frontier research of Section~\ref{sec:frontier} begins.
+
+\begin{table}[!htbp]
+\centering
+\caption{The selected partition on the families (Protocol~C.7). Family A: magnitudes $1$--$9$, repeated; family B: distinct magnitudes over a widening range. Reads are configurations formed to the first zero or to exhaustion of the admitted cells.}
+\label{tab:selection}
+\small
+\input{tables/tab_selection}
+\end{table}
+
+\noindent\emph{Experimental correspondence:} Appendix~\ref{app:C}.
+
+
+%====================================================================
+\section{The Mechanism: The Solved State of an Assertion}\label{sec:solved}
+Enumeration tests sums. Relational Lysis exhibits closures. This section constructs the object in which the difference is visible, the solved state of the assertion as \YM{} defines it, and reads the address of zero from it. The construction uses one result of \PA{} and two definitions of \YM{}, and nothing else.
+
+\begin{definition}[The Solved State of an Assertion]\label{def:solved}
+Let $X$ be asserted per Definition~\ref{def:encoding}, and let $\Sigma$ be its contents under one fixed total order, eldest first. The \emph{relational assignment} of $X$ is $A:\Sigma\times\Sigma\to\mathbb{Q}$ with $A(x,x)=0$ and, for $x\ne y$: $A(x,y)=|x|$ where $x$ and $y$ stand in opposite orientation, and $A(x,y)=0$ where they stand in one orientation. The \emph{solved state} of $X$ is $(\Sigma,D,S)$ with $D=\tfrac12(A+A^{\mathsf T})$ and $S=\tfrac12(A-A^{\mathsf T})$.
+\end{definition}
+\noindent\emph{Justification (Cited).} \YM{} defines a relational assignment as a mapping $A:\Sigma\times\Sigma\to K$ with $A(x,x)=0$ (Definition~9.1), its canonical decomposition $A=D+S$ with $D$ symmetric and $S$ antisymmetric, unique (Proposition~9.1), and the solved state as the triple $(\Sigma,D,S)$ (Definition~9.2): \qq{a symmetric aligned component (Diamond)} and \qq{an antisymmetric residual component (Shadow)}. What $x$ presents into the mediation $x\otimes y$ is fixed by \PA{}: where the orientations are opposite, pairing resolves $\min(|x|,|y|)$ of $x$'s units into aligned conjugate pairs and leaves the rest unpaired on $x$'s side, \q{the resolved configuration's unpaired count is n − m (Lemma 18.4). Nothing is removed} (Theorem~18.5); where they coincide, \q{only opposite-matched units resolve} (Theorem~18.5), and $x$ presents nothing. The order of $\Sigma$ is \YM's \qq{Fix once and for all a total ordering on the finite set Σ}.
+\deps{Definition~\ref{def:encoding}; Theorem~18.5.}
+
+\begin{lemma}[Exhaustion is the Vanishing of the Shadow]\label{lem:shadow}
+For contents $x$, $y$ of opposite orientation: $D(x,y)-|S(x,y)|$ is the number of aligned conjugate pairs their pairing forms, $2|S(x,y)|$ is the unpaired count it leaves, oriented from the greater, and $S(x,y)=0$ exactly when the pair exhausts. For any sub-collection $Y$ with nonempty parts $P'$, $N'$, the solved state of the two aggregates $P'$, $N'$ has $S=\tfrac12\bigl(t(P')-t(N')\bigr)$, and $Y$ exhausts exactly when that $S$ vanishes.
+\end{lemma}
+\begin{proof}
+With $A(x,y)=|x|$ and $A(y,x)=|y|$: $D=\tfrac12(|x|+|y|)$ and $S=\tfrac12(|x|-|y|)$, so $D-|S|=\min(|x|,|y|)$, the matched units of Theorem~18.5, and $2|S|=\bigl||x|-|y|\bigr|$, its unpaired count; $S=0$ exactly when $|x|=|y|$, which by Lemma~\ref{lem:balance} is exactly when the pair exhausts. For $Y$, the aggregates $P'$ and $N'$ exist (Definition~19.1) with atom counts $t(P')$, $t(N')$ (Lemma~19.1) and opposite orientations, so the same computation gives $S=\tfrac12(t(P')-t(N'))$, which vanishes exactly when $t(P')=t(N')$, exactly when $Y$ exhausts (Lemma~\ref{lem:balance}).
+\end{proof}
+\deps{Definition~\ref{def:solved}; Lemma~\ref{lem:balance}; Theorem~18.5; Definition~19.1; Lemma~19.1.}
+
+\begin{proposition}[Closure at Depth]\label{prop:closure}
+The residual a pairing leaves standing is a content of the next stratum: \q{every unit is primitively residual, and aligned content arises only derivatively, by conjugate pairing of previously allocated units} (Theorem~12.2). Where that residual meets its conjugate --- a content of $X$ of equal count and opposite orientation, or the residual of a disjoint pairing --- the two close as a conjugate pair (Theorem~18.1), immutable once formed (Proposition~14.1), and the sub-collection beneath exhausts. Conversely every exhausting sub-collection of three contents, and of four with two of each orientation, is such a closure at the second stratum; and in general a sub-collection exhausts exactly when its hierarchical lysis, residuals carried stratum by stratum in any order, terminates with no residual standing.
+\end{proposition}
+\begin{proof}
+The first sentence is Theorem~12.2; the closure is Theorem~18.1, a signed pair born whole, and Definition~5.2, zero as exhaustion; immutability is Proposition~14.1. Conversely, if $\{x,y,z\}$ exhausts then $\hat x+\hat y+\hat z=0$ with $\hat{}$ the signed count, so the residual of any opposite pair among them is the conjugate of the third; if $\{a,b,c,d\}$ with two of each orientation exhausts then the residuals of its two opposite pairings are conjugate. The general statement: carrying residuals is iterated mediation at the term projection, and the terminal residual is $\sum\hat y$ whatever the order, because the atom counts of an aggregate are the same for every tree (Lemma~19.1, \q{the constitution remembers the tree; the counts forget it}); it vanishes exactly when $Y$ exhausts (Lemma~\ref{lem:balance}).
+\end{proof}
+\deps{Definition~\ref{def:solved}; Lemma~\ref{lem:shadow}; Lemma~\ref{lem:balance}; Theorem~12.2; Theorem~18.1; Definition~5.2; Proposition~14.1; Lemma~19.1.}
+
+\begin{table}[!htbp]
+\centering\small
+\caption{The solved state of the worked assertion $X=\{-7,-3,-2,5,8\}$ (Protocol~B.9). Entries are in units; $D-|S|$ is the matched count of a pair and $2|S|$ its residual. No entry of $S$ vanishes: no pair exhausts. The closures at the second stratum are \solvedClosures.}
+\label{tab:solved}
+\input{tables/tab_solved}
+\end{table}
+
+Table~\ref{tab:solved} is the mechanism on one page. Read the $S$ matrix. The pair $(5,-3)$ leaves a residual of $2\cdot1=2$ standing in the asserted orientation; the content $-2$ stands in the assertion; they are a conjugate pair, they close, and $\{5,-3,-2\}$ exhausts. Nothing was summed to find this. The residual was already a content of the next stratum, its conjugate was already resident, and the closure is read. The whole assertion, taken as its two aggregates, has $S=\tfrac12$: one unit stands, the Shadow of $X$, and it is the residual of $(8,-7)$. On $\{10,-8,-3,2,1\}$ both addresses of zero appear the same way (Protocol~B.9): the residual of $(-3,2)$ is $-1$, closed by the content $1$; and the residuals of $(10,-8)$ and $(-3,1)$ are $+2$ and $-2$, closed by each other.
+
+This is what the classical methods cannot exhibit, because they have no object in which to exhibit it. The survey forms a sub-collection and tests whether its sum is zero; the table marks whether a sum is attainable; neither represents the aligned and residual components of a pairing, and so neither can read a closure. \YM{} builds the covariant self-adjoint Laplacian on the Diamond and clears the Shadow by hierarchical lysis to the fixed point $S=0$ (\qq{A solved relational state is terminal if and only if S = 0}, Proposition~10.4). The present paper reads that fixed point on the simplest problem whose answer is literally $S=0$: zero as exhaustion. The address of zero is where the Shadow vanishes, and the counts of the assertion say where to look for it (Section~\ref{sec:change}).
+
+\subsection{The address is a path-word}\label{sec:pathword}
+\PA{} defines position: \q{The position of a content within a constitution is its address: the oriented path-word of its residence} (Definition~26.1), \q{a structural fact, unique per content, requiring no space to be defined in: the constitution is the space}. The address of zero in Section~\ref{sec:change} was named by its depth. Here it is written out, and it has two lengths.
+
+\begin{definition}[The Path-Word of a Sub-Collection]\label{def:pathword}
+Let $X$ be asserted per Definition~\ref{def:encoding} with contents in the fixed order of $\Sigma$ (Definition~\ref{def:solved}), and let $Y\subseteq X$. The \emph{path-word of $Y$ in contents} is the word of the contents of $Y$ in the order of $\Sigma$; it has $|Y|$ contents and, as a passage, $|Y|-1$ steps (Definition~26.3: \q{its length is the count of its steps}). The \emph{path-word of $Y$ in units} is the oriented word obtained by writing each content of $Y$, in that order, as its $|y|$ units in its orientation; its length is $t(Y)$. The \emph{address} of an exhausting $Y$ is its path-word in units.
+\end{definition}
+\deps{Definition~\ref{def:encoding}; Definition~\ref{def:solved}; Definition~26.1; Definition~26.3.}
+
+\begin{theorem}[Arrival]\label{thm:pathword}
+Let $Y\subseteq X$ exhaust at depth $w$ (Lemma~\ref{lem:balance}). Then: (i) the address of $Y$ is a balanced oriented word of length $t(Y)=2w$, $w$ units in the asserted orientation and $w$ in the reversed, and it is the path-word of a stratum of the envelope at depth $2w$; (ii) instantiation reconstitutes $Y$ exactly: primitive lysis of the address, pairing the eldest unpaired asserted unit with its reversal, terminates after exactly $w$ pairings with no unit standing, and on the path-word of a non-exhausting sub-collection a unit stands; (iii) where the counts select a coincident cell $(c_P,c_N)$, the path-word in contents is written by the counts --- the $c_P$ least, or greatest, asserted contents and the $c_N$ least, or greatest, reversed, a suffix or a prefix of each sector in the order of $\Sigma$ --- and the reading returns that word; (iv) the reading pays the path's length in contents: beyond the boundary, exactly $|Y|-1=c_P+c_N-1$ elementary operations where the least residences coincide, one per step of the passage, and never the length in units; (v) under multiplication of every magnitude by $g$ the length in units is multiplied by $g$ and the length in contents, the acts and the operations are unchanged; (vi) two distinct sub-collections of $X$ may share one address; they are then distinct constitutions standing at one stratum.
+\end{theorem}
+\begin{proof}
+(i) $Y$ has parts $P'$, $N'$ with $t(P')=t(N')=w$ (Lemma~\ref{lem:balance}); its units are $t(Y)=t(P')+t(N')=2w$ by the term projection (Theorem~18.6(i)), $w$ of each orientation (Definition~\ref{def:encoding}). \q{A finite configuration is a finite oriented word; it is therefore the path-word of a unique stratum at depth equal to its length} (Theorem~15.1). (ii) Lysis \q{pairs the eldest unpaired allocated unit with its reversal} (Definition~13.1); each pairing discharges one unit of each orientation; after $w$ pairings none stands, and that is exhaustion (Definition~5.2). For a non-exhausting $Y$, $t(P')\ne t(N')$ and $|t(P')-t(N')|$ units stand (Lemma~18.4). The reconstitution is exact because \q{the terminal stratum's path-word is the configuration itself, and immutability (Proposition 14.1) certifies that no interior process revises it} (Theorem~15.3). (iii) In a coincident cell the two residences that coincide are the $c_P$ least (or greatest) asserted contents and the $c_N$ least (or greatest) reversed (Definition~\ref{def:address}; Lemma~19.1 names their depths); in the order of $\Sigma$, eldest first, the least contents of a sector are its last and the greatest its first, so each part of the word is a suffix or a prefix of its sector. The reading forms exactly those two residences and returns their union. (iv) Forming a residence of $c$ contents is $c-1$ mediations (Definition~18.1), each one addition at the term projection, and the match is one comparison: $(c_P-1)+(c_N-1)+1=|Y|-1$, the count of steps of the passage through the $|Y|$ contents (Definition~26.3). No unit is ever formed: the depth of a residence is a count the aggregate carries (Lemma~19.1), not a level walked. (v) Multiplying every magnitude by $g$ multiplies every $t$ by $g$ and leaves every count of contents, every orientation and every comparison of counts as it was; the boundary and the reading are functions of those alone: the residences are named by prefix and suffix sums of counts (Definition~\ref{def:address}; Lemma~19.1) and the windows and the selection compare counts. (vi) The path-word in units is determined by the sequence of magnitudes and orientations in the order of $\Sigma$; adjacent contents of one orientation whose magnitudes sum alike write the same units. Such sub-collections are distinct constitutions (Definition~19.1: \q{the aggregate as a content depends on the tree}) with equal counts (Lemma~19.1), hence at one stratum.
+\end{proof}
+\deps{Definition~\ref{def:pathword}; Definition~\ref{def:address}; Definition~\ref{def:solved}; Lemma~\ref{lem:balance}; Theorem~15.1; Definition~18.1; Definition~26.3; Theorem~15.3; Theorem~18.6; Definition~13.1; Definition~5.2; Lemma~18.4; Definition~19.1; Lemma~19.1; Proposition~14.1.}
+\chain{Theorem~15.1 $\to$ Definition~26.1 $\to$ Definition~\ref{def:pathword} $\to$ Lemma~\ref{lem:balance} $\to$ Theorem~\ref{thm:pathword}; Theorem~15.3 $\to$ Theorem~\ref{thm:pathword}(ii).}
+\measured{Appendix~\ref{app:B}, Protocol~B.10 (1380 addresses on 38 sampled assertions; the coincident reading on 29 of them; magnification at $n=12$).}
+
+\begin{table}[!htbp]
+\centering\small
+\caption{The two lengths of one path (Protocol~B.10). The address of zero grows with the magnitudes; the cost of arriving at it, one operation per step of the passage, does not. Operations under the one convention; the $n=12$ rows are the twenty-five assertions of Table~\ref{tab:magnitude}, means over those resolved, with the reading beyond the boundary including interior reads where no cell coincides.}
+\label{tab:pathword}
+\input{tables/tab_pathword}
+\end{table}
+
+On the worked assertion the address of zero is the word \texttt{+++++-----}: five units asserted, five reversed, the path-word of a stratum at depth ten. It passes through three contents in two steps, and two is what the reading paid beyond the boundary: one mediation and one match (Table~\ref{tab:ledger}). Multiply every magnitude by sixteen and the address is a word of length one hundred sixty at depth eighty; the reading still pays two. This is Implication~I as a measurement: \q{the cost of a configuration is the length of its path rather than the size of a stored table}, where the path is counted in the contents of the assertion and the table in the units of the range. Retrieval, \PA{} says, \q{is arrival at an address}; the counts of the assertion write the address in contents, and arrival is reading it.
+
+\noindent\emph{Experimental correspondence:} Appendix~\ref{app:B}, Protocols~B.9 and~B.10.
+
+%====================================================================
+\section{Structure Precedes Enumeration}\label{sec:precedence}
+Implication~I of \PA{} is a dependency claim: \q{every numerical object is defined from the chain, and no numerical object is required to define the chain.} A dependency claim is tested by withdrawal. The numerical objects of Section~10 of \PA{} are withdrawn one at a time, in the order Section~10 derives them and from the counts where they live, from the same asserted contents, and both resolutions are run against what remains. The survey must take the capacity count of the contents, form its successor to bound the sizes, and compare sizes in order; it reaches for a withdrawn object at the first row and fails. The structural resolution consumes the contents head and tail --- the first content and the rest, with no position named --- and decides each sub-collection by pairing to exhaustion; it forms no count, names no position, and uses no numeral, and it completes at every row with the identical answer. Every cell of Table~\ref{tab:withdrawal} is the outcome of a run.
+
+\begin{table}[!htbp]
+\centering\small
+\caption{The withdrawal table (Appendix~\ref{app:A}). The numerical objects of Section~10 of \PA{} withdrawn cumulatively, top to bottom.}
+\label{tab:withdrawal}
+\input{tables/tab_withdrawal}
+\end{table}
+
+\noindent\emph{Experimental correspondence:} Appendix~\ref{app:A}.
+
+%====================================================================
+\section{Stratification and the Relational Boundary}\label{sec:encoding}
+This section derives the divisibility relation used as a boundary in Appendix~\ref{app:D} in \PA's own vocabulary and states, as posited, the direction in which boundary assertion is to be developed; the encoding and the objects of the sector method are fixed in Section~\ref{sec:change}.
+
+\begin{definition}[Stratifier; Common Stratifier]\label{def:stratifier}
+A count $k\ge2$ \emph{stratifies} a count $n$ when $n=k\cdot q$ with zero remainder in the decomposition of Theorem~20.2; this is the sense fixed in Theorem~21.2, \q{no k dividing both in the sense of Theorem 20.2 with zero remainder.} Let $C$ be a finite nonempty collection of counts, each $\ge1$, within the bound. A count $k\ge2$ is a \emph{common stratifier} of $C$ when it stratifies every member of $C$; the greatest such $k$, written $g(C)$, is the \emph{greatest common stratifier} when one exists, and otherwise $C$ has \emph{no common stratifier}.
+\end{definition}
+\noindent\emph{Well-definedness (Derived).} The candidates lie in the finite collection $2,\dots,\min C$ (a stratifier of $n$ cannot exceed $n$, Lemma~20.1(i)); each is decided by Theorem~20.2, whose decomposition is unique; when nonempty the collection of common stratifiers has a greatest member by Lemma~26.1 by the dual argument. For two members the definition is Theorem~21.2's term verbatim. \emph{No common stratifier} is not the value~1: in \PA{} a stratifier is a classification of constitution (Theorem~20.3), and its absence is the statement that the relation does not bear.
+\deps{Theorem~20.2; Theorem~21.2; Lemma~20.1(i); Lemma~26.1.}
+
+\begin{lemma}[Stratification of the Sector Reach]\label{lem:strat}
+Let $S$ be a sector whose member magnitudes have a common stratifier $g$. Then every count in $R(S)$ is stratified by $g$.
+\end{lemma}
+\begin{proof}
+Let $c_1,\dots,c_j$ be the members of a sub-collection of $S$, $j\ge1$, with magnitudes $m_i=t(c_i)$. By hypothesis $m_i=g\cdot q_i$ with zero remainder (Theorem~20.2), $q_i\ge1$; by Theorem~19.2 a relational product $g\odot q_i$ has atom count $g\cdot q_i=m_i$, and by Theorem~20.3 a content of that count \q{is k-stratifiable in the domain when some constitution of n atoms in k equal instances resides (Theorem 15.1 supplies one for every factorization n = k·m within capacity, by Theorem 19.2).} For $j=1$ the reachable count is $m_1$. For $j\ge2$ the $c_i$ are pairwise disjoint contents, an aggregate over them exists (Definition~19.1), and its atom count is $t=m_1+\cdots+m_j$ \q{independently of the tree} (Lemma~19.1); under the bounded arithmetic of Section~9 of \PA{} this is $g\cdot(q_1+\cdots+q_j)$, a decomposition with zero remainder, which by uniqueness in Theorem~20.2 is the decomposition. Every count of $R(S)$ is therefore stratified by $g$.
+\end{proof}
+\deps{Definition~\ref{def:encoding}; Definition~\ref{def:stratifier}; Definition~19.1; Lemma~19.1; Definition~19.2; Theorem~19.2; Theorem~20.2; Theorem~20.3; Theorem~15.1; Section~9.}
+
+\begin{corollary}[The Divisibility Boundary]\label{cor:divisibility}
+With greatest common stratifiers $g_P$, $g_N$ of the sectors where these exist, every address is stratified by $g_P$ and by $g_N$; a candidate depth not stratified by both is not an address and is eliminated before any reading. Where a sector has no common stratifier, the relation does not bear on that sector and eliminates nothing through it.
+\end{corollary}
+\begin{proof}
+An address lies in $R(P)$ and in $R(N)$ (Definition~\ref{def:address}, Lemma~\ref{lem:balance}); Lemma~\ref{lem:strat} applied to each sector gives both stratifications; the elimination is the contrapositive; the final clause is Definition~\ref{def:stratifier}.
+\end{proof}
+\deps{Lemma~\ref{lem:strat}; Definition~\ref{def:stratifier}; Definition~\ref{def:address}; Lemma~\ref{lem:balance}.}
+
+\begin{lemma}[The Remainder Class of the Sector Reach]\label{lem:remainder}
+Let $S$ be a sector and $k\ge2$ a count such that every member magnitude of $S$ has the same remainder $r$ in its decomposition by $k$ (Theorem~20.2). Then every count in $R(S)$ reached by a sub-collection of $c$ members has remainder equal to that of $c\cdot r$ in its decomposition by $k$.
+\end{lemma}
+\begin{proof}
+Let the members have magnitudes $m_i=k\cdot q_i+r$, $0\le r<k$, the decompositions being unique (Theorem~20.2). The count reached by $c$ of them is $m_1+\cdots+m_c$ (Lemma~19.1, \q{independently of the tree}), which under Section~9's bounded arithmetic is $k\cdot(q_1+\cdots+q_c)+c\cdot r$; writing $c\cdot r=k\cdot q'+r'$ with $0\le r'<k$ (Theorem~20.2 again), the count is $k\cdot(q_1+\cdots+q_c+q')+r'$ with $0\le r'<k$, which by uniqueness is its decomposition, and $r'$ is the remainder of $c\cdot r$.
+\end{proof}
+\deps{Definition~\ref{def:encoding}; Definition~\ref{def:address}; Definition~19.1; Lemma~19.1; Theorem~20.2; Section~9.}
+
+\begin{corollary}[The Remainder-Class Boundary]\label{cor:remainder}
+Let $k\ge2$ bear on both sectors: every asserted magnitude has remainder $r_P$ and every reversed magnitude remainder $r_N$ by $k$. Then a cell $(c_P,c_N)$ carries an address only if $c_P\cdot r_P$ and $c_N\cdot r_N$ have the same remainder by $k$; every other cell is discarded before any reading. Where no $k$ bears on both sectors, the relation eliminates nothing. In particular, where $r_N=0$ and $r_P=1$, no cell with $c_P<k$ carries an address, and an assertion with $|P|<k$ carries no address at all.
+\end{corollary}
+\begin{proof}
+An address $w$ is reached in $R(P)$ by a sub-collection of $c_P$ members and in $R(N)$ by one of $c_N$ (Definition~\ref{def:address}, Lemma~\ref{lem:balance}); Lemma~\ref{lem:remainder} gives its remainder by $k$ both ways, and the two are the remainder of one count, hence equal by the uniqueness of Theorem~20.2. The particular case: $c_N\cdot0=0$ has remainder $0$ by $k$, while for $1\le c_P<k$ the count $c_P\cdot1=c_P$ is its own decomposition $k\cdot0+c_P$ with remainder $c_P\ne0$ (Theorem~20.2, uniqueness); the two differ, and no cell with $c_P<k$ survives.
+\end{proof}
+\deps{Lemma~\ref{lem:remainder}; Definition~\ref{def:address}; Lemma~\ref{lem:balance}; Theorem~20.2.}
+\measured{Appendix~\ref{app:D}, Protocol~D.8: sound on every cell carrying an address across 122 cases against the exhaustive reference; the certificate family of Protocol~C.16 decided at the boundary with no reading, Table~\ref{tab:remainder}; on the sampled frontier the relation bears on 2 of 156 assertions.}
+
+\begin{table}[!htbp]
+\centering\small
+\caption{The remainder class on the certificate family of Table~\ref{tab:ceiling} (Protocol~D.8): asserted magnitudes $\equiv1$, reversed $\equiv0 \pmod n$, $|P|=n/2<n$. The relation by $n$, recovered from counts with every subtraction charged, discards every cell; the certificate is returned at the boundary. Means of ten per row.}
+\label{tab:remainder}
+\input{tables/tab_remainder}
+\end{table}
+
+\noindent Corollary~\ref{cor:remainder} is the relation at depth that this paper has learned to read beyond coincidence. The family built to defeat the counts --- every cell surviving, no extremal residences coinciding, no zero anywhere --- is decided by it at the boundary in a few hundred operations, where the reading under the ceiling pays the order of the table (Table~\ref{tab:ceiling}). On the sampled frontier it bears rarely, because sampled magnitudes share no remainder; that is the measure of how much of the relational structure of an assertion the present paper reads, and how much remains.
+
+\begin{lemma}[Rescaling by the Common Stratifier of the Assertion]\label{lem:rescale}
+Let $g$ be the greatest common stratifier of $P\cup N$ and $q(m)$ the unique quotient $m=g\cdot q(m)$ (Theorem~20.2). A sub-collection of $X$ exhausts if and only if the corresponding sub-collection of the quotient collection $X/g$ exhausts, and $w$ is an address of $X$ if and only if $w=g\cdot Q$ for $Q$ an address of $X/g$.
+\end{lemma}
+\begin{proof}
+A sub-collection exhausts exactly when $t(P')=t(N')$ (Lemma~\ref{lem:balance}); substituting $m=g\cdot q(m)$ and collecting under Section~9's bounded arithmetic, the balance reads $g\sum_{P'}q=g\sum_{N'}q$. By Lemma~20.1(ii), \q{if d ≥ 1 and x·d = y·d (both defined), then x = y}, this holds if and only if $\sum_{P'}q=\sum_{N'}q$, the balance of the quotient sub-collection; the address statement follows, the correspondence of sub-collections being one-to-one.
+\end{proof}
+\deps{Definition~\ref{def:stratifier}; Definition~\ref{def:address}; Lemma~\ref{lem:balance}; Theorem~20.2; Lemma~20.1(ii); Section~9.}
+
+\begin{corollary}[Assertion as Counts and Assertion as Relations]\label{cor:modes}
+Let the members of $X$ be constituted as relational products $g\odot q_i$ (Definition~19.2). Asserted as counts, the tree is not carried --- the counts \q{depend only on the leaves and k} (Lemma~19.1) --- and $g$ must be recovered by Theorem~20.2 over the finite candidate collection of Definition~\ref{def:stratifier}. Asserted as relations, whether a member is $g$-stratified is a classification of its given tree, \q{answered by its constitution, decidably over finite constituency (Corollary 8.3) — not a command to restructure it} (Theorem~20.3), and $g$ is read, not recovered. The resolution of Lemma~\ref{lem:rescale} is the same in both modes.
+\end{corollary}
+\deps{Lemma~19.1; Theorem~20.3; Corollary~8.3; Lemma~\ref{lem:rescale}.}
+
+\begin{table}[!htbp]
+\centering\small
+\caption{The two modes of assertion (Protocol~D.7): the stratifier recovered from counts by Theorem~20.2 with every subtraction charged, against the stratifier read from the asserted tree.}
+\label{tab:modes}
+\input{tables/tab_modes}
+\end{table}
+
+\begin{posit}[The Relational Boundary --- posited, marked as such]\label{pos:relational}
+A boundary may be asserted by a relation alone, without passage through number. The assertion \emph{let $X$ denote the defined} fixes a bounding relation that determines capacity at genesis (Axiom~5.3); the relation, not its count, is what bounds. The boundaries of Appendix~\ref{app:D}, the selecting relation of Appendix~\ref{app:C}, and the relational mode of Corollary~\ref{cor:modes} are the first instances in which a relation on the assertion has been read as a restriction on the address space; they are the relations this paper has so far learned to read. As more of what a relation contains is identified, boundaries will be asserted from the relation directly and selected according to the use case.
+\end{posit}
+\noindent This item is stated in the convention \PA{} uses for material beyond the proof chain (Remark~15.1, \q{interpretive corollary, marked as such}); it is depended upon by nothing in this paper, and the dependency graph of Section~\ref{sec:falsifiability} certifies that.
+
+\noindent\emph{Experimental correspondence:} Appendix~\ref{app:D}.
+
+%====================================================================
+\section{The Four Theorems}\label{sec:theorems}
+
+\begin{convention}[Cost Conventions]\label{conv:cost}
+Two conventions are used and never mixed in one table. Under \textsc{structural acts}, one act is one operation of the framework: a relation asserted at the boundary, the order of a sector by count among them (the chain of Theorem~10.2); a cell of the envelope opened; a residence read, one configuration of one sector at one depth; a match, one test that both orientations are resident at one depth; a pairing discharge or exhaustion test where a content is certified (Definition~13.1, Theorem~18.5, Corollary~23.8); a mediation (Definition~18.1 at the term projection, Theorem~18.6(i)). A level of magnitude is never an act. Under \textsc{RAM elementary operations} \citep{CookReckhow1973}, one operation is one elementary step of the random-access machine --- an addition, a comparison, a table read, or a table write --- charged identically inside every resolution compared, the structural one included. The two are defined once, in \texttt{conventions.py}, and the worked assertion is reported under both.
+\end{convention}
+\deps{Definition~13.1; Theorem~18.5; Corollary~23.8; Definition~18.1; Theorem~18.6(i); Theorem~10.2.}
+
+\begin{theorem}[The Envelope]\label{thm:envelope}
+Let $X$ be asserted per Definition~\ref{def:encoding} with sectors $P$, $N$. Then: (i) $t(X)=t(P)+t(N)$; (ii) every exhausting sub-collection $Y$ has $t(P')=t(N')$, both parts nonempty; (iii) the address of every exhausting $Y$ lies in $1,\dots,\mathrm{cap}(X)$, where $\mathrm{cap}(X):=\min(t(P),t(N))\le\lfloor t(X)/2\rfloor$, a bound fixed by the assertion before any reading; (iv) if either sector is empty, no sub-collection exhausts.
+\end{theorem}
+\begin{proof}
+(i) $P$ and $N$ partition the members of $X$ (Definition~18.2), their constitutions are disjoint, and the atom count of a mediation of disjoint summable contents is the sum of the counts, \q{the boundary contributes no atom} (Theorem~18.6(i)); iterating over the members (Lemma~19.1) gives $t(X)=t(P)+t(N)$. (ii) is Lemma~\ref{lem:balance}. (iii) By (ii) the address $w=t(P')=t(N')$; since $P'\subseteq P$ and $t$ is additive over disjoint members, $t(P)\ge t(P')$ (Lemma~20.1(i)) and likewise $t(N)\ge t(N')$, so $w\le\min(t(P),t(N))$; $w\ge1$ since $P'$ is nonempty and every member has at least one unit; the two sector counts sum to $t(X)$ by (i). (iv) If $N$ is empty every $Y$ has $N'$ empty and does not exhaust by Lemma~\ref{lem:balance}; symmetrically for $P$.
+\end{proof}
+\chain{Definition~18.2 $\to$ Theorem~18.6(i) $\to$ Lemma~19.1 $\to$ Definition~\ref{def:address} $\to$ Lemma~\ref{lem:balance} $\to$ Theorem~\ref{thm:envelope}.}
+\deps{Definition~\ref{def:encoding}; Definition~\ref{def:address}; Lemma~\ref{lem:balance}; Definition~18.2; Theorem~18.6(i); Lemma~19.1; Lemma~20.1(i).}
+\measured{Appendix~\ref{app:B}, Protocols~B.3 and~B.7 (every address found on 38 sampled assertions lies within $\mathrm{cap}(X)$); Appendix~\ref{app:D}, Protocol~D.2.}
+
+\begin{theorem}[The Address of Zero]\label{thm:address}
+Let $X$ be asserted per Definition~\ref{def:encoding} with sectors $P$, $N$, and let the envelope of $X$ be the descent founded by the assertion (Axiom~5.1). Then: (i) every sub-collection of $P$, and of $N$, resides in the envelope at the depth equal to its atom count, before and independently of any reading; (ii) zero resides at depth $w$ if and only if an asserted configuration and a reversed configuration both reside at $w$; their union exhausts, and $w$ is its address; (iii) the envelope is partitioned by sector cardinality into cells $(c_P,c_N)$, and in each cell four configurations reside whose depths are named by the counts alone --- the $c_P$ least and greatest asserted contents, the $c_N$ least and greatest reversed, at the prefix and suffix sums of the ordered sectors; where the two least, or the two greatest, stand at one depth $w$ within the cell's window, zero resides at $w$ and the sub-collection beneath is read with no other configuration formed; (iv) every exhausting sub-collection stands in exactly one cell, and only in cells whose windows meet.
+\end{theorem}
+\begin{proof}
+(i) A sub-collection of a sector is a finite oriented configuration of the contents of $X$, hence resides in the descent of the first relation at a finite depth \q{independently of any act of selection, retrieval, or observation} (Theorem~15.1); under the term projection its depth is its atom count (Theorem~18.6(i); Definition~\ref{def:address}). (ii) If $A\subseteq P$ and $B\subseteq N$ both reside at $w$ then $t(A)=w=t(B)$ and $A\cup B$ exhausts by Lemma~\ref{lem:balance}; conversely an exhausting $Y$ has $t(P')=t(N')=w$ and its parts reside at $w$ by (i). The address is unique per configuration (Theorem~15.3). (iii) The cells partition the sub-collections by their two cardinalities. The $c_P$ least asserted contents form an aggregate (Definition~19.1) whose atom count is their sum (Lemma~19.1), the $c_P$-th prefix sum of $P$ in order, and it resides by (i); likewise the other three. If the two least aggregates stand at one depth $w$ they are a conjugate pair at $w$ (Theorem~18.1: equal count, opposite orientation), and (ii) applies; the same for the greatest. The reading forms the two configurations the counts name and tests one equality. (iv) An exhausting $Y$ has definite cardinalities, hence one cell; within the cell every asserted configuration has depth between the $c_P$-th prefix and suffix sums of $P$ (Lemma~20.1(i)), every reversed configuration between those of $N$, so two configurations at one depth require the two intervals to meet.
+\end{proof}
+\chain{Axiom~5.1 $\to$ Theorem~15.1 $\to$ Definition~\ref{def:address} $\to$ Lemma~\ref{lem:balance} $\to$ Theorem~18.1 $\to$ Theorem~\ref{thm:address}.}
+\deps{Definition~\ref{def:encoding}; Definition~\ref{def:address}; Lemma~\ref{lem:balance}; Axiom~5.1; Theorem~15.1; Theorem~15.3; Theorem~18.1; Theorem~18.6(i); Definition~19.1; Lemma~19.1; Lemma~20.1(i).}
+\measured{Appendix~\ref{app:B} (the address as the depth where both reaches meet; agreement with the exhaustive reference on 38 sampled assertions; exact reconstitution); Appendix~\ref{app:C}, Protocols~C.1, C.2 and~C.5 (zero at depth~5 on the worked assertion and at depths 3 and 11 on the second; completeness against the exhaustive reference on 300 sampled assertions; coincident extremal residences read in the first cell on both).}
+
+\begin{remark}
+The theorem does not construct the envelope. Residence is a fact about the descent the assertion founds (Theorem~15.1), and reading it alters nothing (Proposition~14.1). What a resolution does is choose where to read: clause~(iii) is the case in which the counts name the depth outright, and clause~(iv) is what bounds the reading where they do not.
+\end{remark}
+
+\begin{definition}[The Reach Reading and the Ceiling]\label{def:ceiling}
+Let $X$ be asserted per Definition~\ref{def:encoding} with ordered sectors $P$, $N$, and let $m=\min(t(P),t(N))$ be the floor. The \emph{reach reading} of a sector reads its reach $R(S)$ (Definition~\ref{def:address}) to the floor: for each content of the sector in the order of $\Sigma$, every residence standing is mediated with it (Definition~18.1; the constitutions are disjoint since the content is new, Definition~19.1), the mediation residing at the sum of the depths (Lemma~19.1); residences at one depth stand at one stratum, and one is kept. The reach reading of $X$ reads both sectors and matches by depth; one residence is kept per depth. The \emph{formation bound} of a cell $(c_P,c_N)$ is $F_P(c_P)+F_N(c_N)$ with $F_S(c)=2\sum_{j\le c}\binom{|S|}{j}+\binom{|S|}{c}$, computed from the counts. The reach reading of a sector is the Bellman table's sweep restricted to that sector and to depths at most $m$, charged as the table is charged; its bound is $\rho(X)=n(4m+1)+m+1$ for both sectors and the match. The \emph{allowance} is $\alpha(X)=n(t(X)-m)-(m+1)-B(X)-(5k+6n+9)$, computed from the counts: the reads the restriction saves against the table, less the boundary and the ceiling's own bookkeeping. The \emph{ceiling} is the relation asserted before the interior of any cell is read: the formation bounds of the cells opened so far, cumulated, are compared with the allowance; where they exceed it, the reach of $X$ is read once and the cells are not.
+\end{definition}
+\deps{Definition~\ref{def:encoding}; Definition~\ref{def:address}; Definition~18.1; Definition~19.1; Lemma~19.1.}
+
+\begin{theorem}[The Reading Law]\label{thm:reading}
+Let $X$ be asserted per Definition~\ref{def:encoding} with $n$ members; let the boundary be asserted as in Appendix~\ref{app:D} --- the partition by orientation, the order of each sector by count, the extremal floor, and the cardinality cells whose windows meet --- let the cells be opened in the order the counts select (Appendix~\ref{app:C}): a coincident cell first, then fewest contents first; and let the ceiling of Definition~\ref{def:ceiling} be asserted. Then: (i) the boundary is computed from the counts alone, before any residence is read, at exactly $B(X)=\sigma(P)+\sigma(N)+1+2n+|P|\,|N|+3k-1$ elementary operations for $k\ge1$ surviving cells (the last term absent for $k=0$), plus $k+n-2$ where no cell coincides, with and $\sigma(S)\le|S|\lceil\log_2|S|\rceil$ the comparisons ordering $S$; (ii) where a coincident cell exists, zero is read in the first cell opened with two residence reads and one match, and the whole resolution costs the boundary plus four structural acts --- the opening, two reads and a match --- which in elementary operations are exactly $c_P+c_N-1<n$, one per step of the address (Theorem~\ref{thm:pathword}); (iii) no configuration is ever formed outside an opened cell and its window, and the interior reading of a cell $(c_P,c_N)$ costs at most its formation bound; (iv) the table, run in the order of the assertion, costs at least the reach reading plus $n(t(X)-m)-(m+1)$; hence where the allowance $\alpha(X)$ is non-negative the whole resolution costs at most the table, and in every case at most $B(X)+\rho(X)+5k+6n+9$, with $m\le t(X)/2$: what is upstream of enumeration costs at most what enumeration costs at the same resolution; (v) the exhaustive survey performs $n\,2^{n-1}+2^n-1$ operations, and the Bellman table $n\,(t(X)+1)$ reads with at most three further operations per occupied cell, at most $4n(t(X)+1)$ in all; (vi) consequently, where a cell coincides the cost of the resolution is the boundary plus fewer than $n$ operations and no term depends on the magnitudes; where none coincides it is at most the table's wherever the restriction's saving covers the boundary, and never the survey's; the survey's cost depends on $n$ alone and is exponential in it; the table's cost depends on the magnitudes through $t(X)$.
+\end{theorem}
+\begin{proof}
+(i) The orientation partition is read from the sign of each content (Definition~18.2); the order of a sector by count is the chain of Theorem~10.2 asserted on it, at $\sigma$ comparisons; the extremal floor is one comparison; the prefix and suffix sums of each ordered sector are $2n$ additions in all; each of the $|P|\cdot|N|$ cells is admitted or discarded by comparing its two intervals (Theorem~\ref{thm:address}(iv)), one comparison each; the selection tests, per surviving cell, whether its two least and its two greatest depths, already computed, coincide --- two equality tests, no window test being needed since a coincident least depth is the cell's lower end and a coincident greatest depth its upper --- and takes the least-keyed cell in one pass of $k-1$ comparisons; where no cell coincides the rest are ranked by contents in $k+n-2$ placements and visits. No configuration of $X$ is formed. Protocol~C.15 confirms the count exactly on every assertion of the suite. (ii) By Theorem~\ref{thm:address}(iii) the two configurations the counts name reside at one depth and are a conjugate pair; forming them is two residence reads, $(c_P-1)+(c_N-1)$ mediations at the term projection (Definition~18.1, Theorem~18.6(i)); testing the equality is one match; and the selection opens that cell first. The count is Theorem~\ref{thm:pathword}(iv). (iii) A residence is read only inside the loop over opened cells, by the procedure that forms sub-collections of exactly the cell's cardinality in increasing order of their members and abandons any partial configuration whose sum exceeds $\mathrm{hi}$ (Appendix~\ref{app:C}, certified by inspection of source). Every extension attempt, the abandoning one included, is a distinct sub-collection of at most $c$ contents and costs one addition and one comparison; every completion is a sub-collection of $c$ and costs one comparison: at most $F_S(c)$. (iv) The reach reading sweeps, per sector, $|S|$ contents against $m+1$ cells, one read each, and at an occupied cell pays the addition, the comparison with the floor and a write where within it; at most $m$ cells are occupied, so a sector costs at most $|S|(4m+1)$, both $n(4m+1)$, and the match $m+1$ reads: $\rho(X)$. Run the table in the order of the assertion. When it sweeps a content $x$ of sector $S$, every cell the restricted reading has occupied --- a sum of contents of $S$ that precede $x$, at a depth at most $m$ --- the table has occupied too, since its sums include the sector's own and the contents preceding $x$ are the same; and the table's target $i+x$ lies within its range. So every operation of the reach reading is matched by one of the table's, and the table reads $t(X)-m$ further cells per content and lacks only the $m+1$ reads of the match: $T(X)\ge\rho_{\mathrm{actual}}(X)+n(t(X)-m)-(m+1)$. Before the interior of a cell is read, the ceiling compares the cumulated formation bounds with $\alpha(X)$; while they do not exceed it, the interiors read so far cost at most their bounds, hence at most $\alpha(X)$; when they would, the reach is read instead, once. The ceiling's own bookkeeping is nine operations for the floor and the allowance, six per entry of the two formation tables ($6n$), and five per cell opened. Where $\alpha(X)\ge0$ the whole costs at most $B(X)+\alpha(X)+\rho_{\mathrm{actual}}(X)+5k+6n+9=n(t(X)-m)-(m+1)+\rho_{\mathrm{actual}}(X)\le T(X)$; where $\alpha(X)<0$ no interior is read and the whole costs at most $B(X)+\rho(X)+5k+6n+9$. (v) The survey forms each sub-collection of $r$ members with $r$ additions and one comparison, $\sum_r\binom{n}{r}(r+1)=n2^{n-1}+2^n-1$; the table over the signed range $-t(N),\dots,t(P)$ has $t(X)+1$ cells (Theorem~\ref{thm:envelope}(i)), one pass per content reads each once, and an occupied cell costs the addition naming its target, the comparison with the range and the write. (vi) is (i)--(v) read together: in (ii) no term contains $t(X)$; in (iv) the bound is the table's own cost, or else $B(X)$, polynomial in the counts, plus $\rho(X)+O(n+k)$ with $\rho(X)\le n(2t(X)+1)+t(X)/2+1$.
+\end{proof}
+\chain{Definition~18.2 $\to$ Theorem~\ref{thm:envelope} $\to$ Theorem~\ref{thm:address} $\to$ Theorem~\ref{thm:pathword} $\to$ Definition~\ref{def:ceiling} $\to$ Convention~\ref{conv:cost} $\to$ Theorem~\ref{thm:reading}.}
+\deps{Convention~\ref{conv:cost}; Theorem~\ref{thm:envelope}; Theorem~\ref{thm:address}; Theorem~\ref{thm:pathword}; Definition~\ref{def:ceiling}; Definition~18.2; Definition~18.1; Theorem~18.6; Theorem~10.2.}
+\measured{Appendix~\ref{app:C}: Protocol~C.9 (the worked assertion, itemised, Table~\ref{tab:ledger}); Protocol~C.6 (the selection forms no configuration, by inspection of source); Protocol~C.4 (no configuration formed outside an admitted cell, by inspection of source; determinism); Protocols~C.3, C.7, C.8 (the fraction of the tower read, the selected partition on the families); Protocol~C.10 (magnitude invariance, Table~\ref{tab:magnitude}); Protocols~C.12 and~C.13 (the anchors, Tables~\ref{tab:worked} and~\ref{tab:scaling}); Protocol~C.15 (the boundary's exact cost, the coincident cell); Protocol~C.16 (the formation bound on every surviving cell; the reach reading's cost and completeness; the table at least the reach reading plus the saved reads; the resolution at most the table on all 440 assertions, Table~\ref{tab:ceiling}).}
+
+\begin{table}[!htbp]
+\centering\small
+\caption{The ceiling on certificate assertions built to defeat the selection (Protocol~C.16): no zero, no coincident cell, $|P|=|N|=n/2$, asserted contents $\equiv1$ and reversed $\equiv0 \pmod n$; ten per row, means, operations under the one convention. The resolution returns the certificate on every one at no more than the table's cost (Theorem~\ref{thm:reading}(iv)); with the remainder class of Corollary~\ref{cor:remainder} asserted, the same family is decided at the boundary with no reading (Table~\ref{tab:remainder}). On the sampled family~B at $n=20$ the \ceilNc{} assertions with no coincident cell cost \ceilNcStruct{} operations on average against the table's \ceilNcTable{}, the ceiling firing on \ceilNcFired{}; the \ceilCo{} with one cost \ceilCoStruct{}.}
+\label{tab:ceiling}
+\input{tables/tab_ceiling}
+\end{table}
+
+\begin{remark}
+The theorem claims that the work of the resolution is moved into the assertion of the boundary, computed from the counts, and that the reading is confined to the cells the boundary opens, with the coincident case read at once. Appendix~\ref{app:C} reports, on both families, the assertions on which no cell coincides; those are the assertions on which a further relation at depth, not yet identified, would name the address directly. The figures are what the law looks like on one problem; a reader who changes the family changes the figures and not the law.
+\end{remark}
+
+\begin{theorem}[Encoding]\label{thm:encoding}
+Let $X$ be asserted per Definition~\ref{def:encoding}. The length of the assertion is its atom count, $\ell(X):=t(X)$, and no shorter representation exists in the primitive tier (Lemma~\ref{lem:shorthand}). Then $n\le\ell(X)$; the resolution of $X$ by the table of Theorem~\ref{thm:reading}(v) costs at most $4n(\ell(X)+1)\le4\ell(X)^2+4\ell(X)$ operations; and the structural resolution of Theorem~\ref{thm:reading} costs at most $6\ell(X)^2+11\ell(X)+8$ operations on every assertion, at most the table's cost wherever its allowance is non-negative, and the boundary plus fewer than $n$ where a cell coincides. The exhaustion question is resolvable in a number of operations bounded by a polynomial of degree two in the length of the assertion, by either resolution; the structural one preserves that bound and, where the counts name a coincident cell, pays nothing that grows with the length.
+\end{theorem}
+\begin{proof}
+Each member has at least one unit (Definition~\ref{def:encoding}), so $n\le t(X)=\ell(X)$; the table's cost is at most $4n(t(X)+1)$ (Theorem~\ref{thm:reading}(v)); substituting $n\le\ell(X)$ gives the first bound. For the second, Theorem~\ref{thm:reading}(iv) gives at most $\max\bigl(T(X),\,B(X)+\rho(X)+5k+6n+9\bigr)$. Since $\lceil\log_2 a\rceil\le a$, $\sigma(P)+\sigma(N)\le n^2$; since $k\le|P|\,|N|\le n^2/4$, $B(X)\le n^2+1+2n+n^2/4+3k-1+k+n-2\le\tfrac94n^2+3n-2$. Since $2m\le t(X)=\ell$ and $n\le\ell$: $\rho(X)=n(4m+1)+m+1\le2\ell^2+\ell+\tfrac12\ell+1$, and $5k+6n+9\le\tfrac54\ell^2+6\ell+9$. Summing, $B+\rho+5k+6n+9\le\tfrac{11}{2}\ell^2+\tfrac{21}{2}\ell+8$, and $T(X)\le4\ell^2+4\ell$; both are at most $6\ell^2+11\ell+8$. The coincident case is Theorem~\ref{thm:reading}(ii). Protocol~C.16 confirms both bounds on every assertion of the suite and of the adversarial family.
+\end{proof}
+\chain{Definition~10.1 $\to$ Lemma~\ref{lem:shorthand} $\to$ Definition~\ref{def:encoding} $\to$ Theorem~\ref{thm:reading} $\to$ Theorem~\ref{thm:encoding}.}
+\deps{Definition~\ref{def:encoding}; Lemma~\ref{lem:shorthand}; Theorem~\ref{thm:reading}.}
+\measured{Appendix~\ref{app:C}, Protocols~C.9, C.10 and~C.16.}
+
+\begin{remark}
+Stated classically, the first sentence of Theorem~\ref{thm:encoding} is the pseudo-polynomial table of the dynamic-programming literature \citep{Bellman1957,GareyJohnson1979}, the reason subset sum is classified as weakly rather than strongly NP-complete. What the theorem contributes is where the encoding comes from and what the resolution is. The encoding is forced by \PA{}: in the primitive tier a magnitude is its units. And the resolution is not a table consulted but an address read: the configuration resides at genesis (Theorem~15.1), the counts of the assertion select the cell in which it stands (Theorem~\ref{thm:reading}), and it is read there. The table is what the reading costs when no cell has been selected and the whole signed range is visited level by level. On this account the hardness attributed to subset sum under binary encoding is the cost of a notation the primitive tier does not possess, and the cost of the table is the cost of declining to assert a boundary.
+\end{remark}
+
+\noindent\emph{Experimental correspondence:} Appendices~\ref{app:B}, \ref{app:C}, \ref{app:D}.
+
+%====================================================================
+\section{Structural Information Not Present in Enumeration}\label{sec:surplus}
+One resolution of the worked assertion under the envelope boundary --- orientation not partitioned, every depth of the signed range read --- yields an occupancy of the envelope from which six readings are taken, none of which re-resolves and none of which constructs a combination (Protocol~E.1, by inspection of source). Table~\ref{tab:surplus} sets them against what the table returns. The whole spectrum: twenty distinct targets are answered from the one resolution, every count agreeing with the exhaustive reference, where enumeration answers one target per pass. Multiplicity: the number of sub-collections reaching each target is carried in the occupancy; none is listed to obtain it. The certificate: on an assertion carrying no zero, the resolution returns a certificate and the distance to the nearest occupied address. Conjugate symmetry: the envelope closed with $\neg X$ has forty-nine addresses and its occupancy satisfies $\mathrm{occ}(t)=\mathrm{occ}(-t)$ throughout. Composition: the occupancy of a sub-assertion convolved with that of a disjoint sub-assertion equals the occupancy of their union, the disjointness Definition~19.1 requires being checked. And across assertions grouped by the number of addresses they carry, the work of the resolution varies by $1.47\times$: resolution time carries no information about the answer. Computation is more efficient, and the available information is higher, from one assertion.
+
+\begin{table}[!htbp]
+\centering\small
+\caption{What one structural resolution returns against what the table returns (Appendix~\ref{app:E}).}
+\label{tab:surplus}
+\input{tables/tab_surplus}
+\end{table}
+
+\noindent\emph{Experimental correspondence:} Appendix~\ref{app:E}.
+
+%====================================================================
+\section{Falsifiability and the Verified Dependency Structure}\label{sec:falsifiability}
+
+\begin{theorem}[Non-Circular Dependency Structure]\label{thm:graph}
+Sections~\ref{sec:change}--\ref{sec:theorems} form a strictly acyclic dependency graph of results, every chain of which terminates in labeled items of \PA{} or in Convention~\ref{conv:cost}, with the posited item a sink. Direct computation: \texttt{dependency\_graph.py} extracts every labeled item and its Dependencies line from this document's source, resolves every citation of \PA{} by kind and number against the source text of \PA{}, and verifies acyclicity, text order, the absence of shadowed labels, and the in-degree of the posited item; its census is printed in Appendix~\ref{app:F}.
+\end{theorem}
+\deps{Convention~\ref{conv:cost}; Theorem~\ref{thm:envelope}; Theorem~\ref{thm:address}; Theorem~\ref{thm:reading}; Theorem~\ref{thm:encoding}.}
+
+
+\begin{theorem}[Falsifiability]\label{thm:falsifiability}
+The results of this paper are falsifiable: violation of any derived consequence of Sections~\ref{sec:change}--\ref{sec:theorems}, or failure of any protocol of Appendices~\ref{app:A}--\ref{app:E}, constitutes a direct refutation. The failure modes of Table~\ref{tab:failure} are independent, each targeting a distinct item of the dependency graph, and each is tested by the named protocol.
+\end{theorem}
+\begin{proof}
+Each result is derived from cited items of \PA{} and is necessary for the consistency of the chain; each measured claim is a clause of a theorem whose protocol's pass condition is that clause; the graph is acyclic (Theorem~\ref{thm:graph}), so no item's failure is entailed by another's.
+\end{proof}
+\deps{Theorem~\ref{thm:envelope}; Theorem~\ref{thm:address}; Theorem~\ref{thm:reading}; Theorem~\ref{thm:encoding}; Theorem~\ref{thm:graph}.}
+
+\begin{table}[!htbp]
+\centering\small
+\caption{Critical failure modes and the protocols that test them. All protocols pass in the current run.}
+\label{tab:failure}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{} p{0.19\textwidth} p{0.55\textwidth} p{0.2\textwidth} @{}}
+\toprule
+\textbf{Failure mode} & \textbf{The paper is invalidated if} & \textbf{Tested by} \\
+\midrule
+Precedence & the structural resolution fails or changes its answer under withdrawal of a numerical object of Section~10 of \PA{}, or enumeration completes with the capacity count withdrawn & App.~\ref{app:A} \\
+Encoding & a representation of magnitude $m$ shorter than $m$ units is exhibited within the primitive tier & Lemma~\ref{lem:shorthand}; D.7 \\
+Address & zero is read where both orientations are not resident, or an address lies outside $\mathrm{cap}(X)$, or the reading returns no zero on an assertion carrying one & B.3, B.7; C.1, C.2 \\
+Boundary & an admitted boundary excludes a true address, or a boundary or the selecting relation consults a residence or a reference answer & D.1--D.3; C.6 \\
+Reading & a configuration is formed outside an opened cell or its window, or a coincident cell costs more than the boundary plus $c_P+c_N-1$ operations, or the boundary departs from its exact law, or the ledger does not sum & C.4; C.5; C.9; C.15 \\
+Ceiling & the interior reading of a surviving cell exceeds its formation bound, or the reach reading exceeds $\rho(X)$ or misses a resident depth, or the table costs less than the reach reading plus the saved reads, or any resolution with non-negative allowance exceeds the table, or any exceeds $6\ell^2+11\ell+8$, or a certificate instance is misdecided & C.16 \\
+Remainder class & a cell carrying an address is discarded where a modulus bears, or the certificate family is not decided at the boundary & D.8 \\
+Cost & the structural reading's operations grow with the magnitudes at fixed $n$, or the survey's count departs from $n2^{n-1}+2^n-1$ & C.10; C.12, C.13 \\
+Surplus & a reading re-resolves, constructs a combination, or disagrees with the exhaustive reference & E.1--E.7 \\
+Closure & the dependency graph has a cycle, a forward dependency, an unresolved citation of \PA{}, or an edge into the posited item; or a quotation of \PA{} is not verbatim & \texttt{dependency\_graph.py}; \texttt{quote\_check.py} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%====================================================================
+\section{Directions for Frontier Research}\label{sec:frontier}
+This is an introductory paper, and the frontier it opens is in the boundary. What the paper reads of an assertion's relational structure is three things: the orientation and cardinality that partition the envelope into cells, the coincidence of extremal residences that names an address outright, and the remainder class that discards cells by Theorem~20.2. Each is a relation of the Diamond and the Shadow of the solved state $(\Sigma,D,S)$ of Section~\ref{sec:solved}: coincidence is the vanishing of $S$ on a pair of aggregates named by counts; the remainder class is a relation on the Shadow, under which the residual $2|S(x,y)|=\bigl||x|-|y|\bigr|$ of every opposite pairing has one remainder by $k$, that of $r_P-r_N$ or its reverse. The assertions on which neither bears are counted row by row in Table~\ref{tab:selection}, and on them the resolution is read under the ceiling, at most the table's cost. Each further relation at depth identified moves assertions from that count into the boundary, and that is the direction: the frontier is knowing more about relational structure. The relational boundary of Posit~\ref{pos:relational} is its general form, boundaries asserted from relations directly, without passage through number, of which Corollary~\ref{cor:modes} and Table~\ref{tab:modes} are the first instance.
+
+Three consequences are stated for later work and not claimed here. First, the method transfers by its form: an instance asserted, its relations partitioning its envelope, the counts selecting the cell, the address read there, is hierarchical lysis on a solved state, the object on which \YM{} constructs the covariant self-adjoint Laplacian; the next paper takes a harder instance and asks whether the Laplacian on the Diamond does at scale what coincidence and the remainder class do here by inspection. Second, the two lengths of an address (Theorem~\ref{thm:pathword}) separate what a compiler can do from what hardware must: a representation that stores the path-word in contents and resolves by reading it is software, and the ceiling of Theorem~\ref{thm:reading}(iv) is its guarantee against the table; what asserts constitution itself --- a boundary read from the relation rather than recovered from counts, as in the relational mode of Corollary~\ref{cor:modes} --- is a question for hardware, since the primitive tier's acts are not the random-access machine's. Third, the redefinition of hardness that the abstract states is to be carried to the strong form of the problem and to the other members of Karp's list, where the question becomes which relations at depth each instance class carries at the point of assertion.
+
+\FloatBarrier
+\clearpage
+\section*{Conflict of Interest}
+The author declares that there is no conflict of interest regarding the publication of this manuscript. Certain applied engineering implementations related to Relational Lysis are the subject of pending patent applications; these filings do not cover the mathematical theory or results presented in this paper.
+
+\section*{Data Availability}
+This study is theoretical in nature and does not rely on external datasets. Validated computational experiments supporting the theoretical framework, the generator of every table in this paper, the dependency-graph verifier, the quotation verifier, and the source text of \PA{} against which they resolve, are available at \url{https://github.com/theorem46/pvnp}.
+
+\input{appendices}
+
+\ifsnjnl
+\bibliography{sn-bibliography}
+\else
+\bibliographystyle{unsrtnat}
+\bibliography{sn-bibliography}
+\fi
+
+\end{document}
