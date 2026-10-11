@@ -3,7 +3,7 @@
 ### Computational validation for *An Introductory Examination of the P vs NP Problem Using Relational Structure*
 
 **Author:** Dr. David Swanagon
-**Affiliation:** Theorem 46 Research Institute — Department of Applied Physics, Dallas, Texas, United States
+**Affiliation:** ORCID: 0009-0005-9506-4609, Dallas, Texas, United States
 
 ---
 
@@ -13,8 +13,8 @@ The manuscript is **not** hosted in this repository. It is published open access
 
 | | |
 | --- | --- |
-| **Zenodo** | `ADD DOI LINK` |
-| **ResearchGate** | `ADD LINK` |
+| **Zenodo** | https://doi.org/10.5281/zenodo.23305964 |
+| **ResearchGate** | https://www.researchgate.net/publication/415565565_Relational_Lysis_and_Computational_Efficiency_An_Introductory_Examination_of_the_P_vs_NP_Problem_Using_Relational_Structure |
 
 This repository contains only the experiments behind the paper's appendices and their recorded output, so that any claim in the paper can be re-run and checked independently.
 
